@@ -35,21 +35,21 @@ O objetivo deste projeto é transformar o boteco em uma experiência digital com
 
 A pasta de wireframes do projeto contém as telas iniciais da interface:
 
-![Home](documentação/Wireframe/Homepage.png)
+![Home](documentação/Wireframes/Homepage.png)
 
-![Cardápio](documentação/Wireframe/Cardapio.png)
+![Cardápio](documentação/Wireframes/Cardapio.png)
 
-![Eventos](documentação/Wireframe/CronogramaEventos.png)
+![Eventos](documentação/Wireframes/CronogramaEventos.png)
 
-![Galeria de Fotos](documentação/Wireframe/Galeria.png)
+![Galeria de Fotos](documentação/Wireframes/Galeria.png)
 
-![Reservas](documentação/Wireframe/Reserva.png)
+![Reservas](documentação/Wireframes/Reserva.png)
 
-![Reservas com Mapa de Mesas](documentação/Wireframe/ReservaComMapa.png)
+![Reservas com Mapa de Mesas](documentação/Wireframes/ReservaComMapa.png)
 
-![Dashboard Admin](documentação/Wireframe/Dashboard.png)
+![Dashboard Admin](documentação/Wireframes/Dashboard.png)
 
-![Login Admin](documentação/Wireframe/Login.png)
+![Login Admin](documentação/Wireframes/Login.png)
 
 ## Status do projeto
 
