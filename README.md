@@ -35,21 +35,21 @@ O objetivo deste projeto é transformar o boteco em uma experiência digital com
 
 A pasta de wireframes do projeto contém as telas iniciais da interface:
 
-![Home](documentação/Wireframe/Home-Boteco-do-Hudson.png)
+![Home](documentação/Wireframe/Homepage.png)
 
-![Cardápio](documentação/Wireframe/Card-pio-Boteco-do-Hudson.png)
+![Cardápio](documentação/Wireframe/Cardapio.png)
 
-![Eventos](documentação/Wireframe/Eventos-Boteco-do-Hudson.png)
+![Eventos](documentação/Wireframe/CronogramaEventos.png)
 
-![Galeria de Fotos](documentação/Wireframe/Galeria-de-Fotos-Boteco-do-Hudson.png)
+![Galeria de Fotos](documentação/Wireframe/Galeria.png)
 
-![Reservas](documentação/Wireframe/Reservas-Boteco-do-Hudson.png)
+![Reservas](documentação/Wireframe/Reserva.png)
 
-![Reservas com Mapa de Mesas](documentação/Wireframe/Reservas-com-Mapa-de-Mesas-Boteco-do-Hudson.png)
+![Reservas com Mapa de Mesas](documentação/Wireframe/ReservaComMapa.png)
 
-![Dashboard Admin](documentação/Wireframe/Dashboard-Admin-Boteco-do-Hudson.png)
+![Dashboard Admin](documentação/Wireframe/Dashboard.png)
 
-![Login Admin](documentação/Wireframe/Login-Admin-Boteco-do-Hudson.png)
+![Login Admin](documentação/Wireframe/Login.png)
 
 ## Status do projeto
 
