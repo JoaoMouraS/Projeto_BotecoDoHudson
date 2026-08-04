@@ -8,7 +8,7 @@ const links = [
   { label: 'Reservar Mesa', path: '/reservation', accent: true },
 ];
 
-const Navbar = ({ currentPath, onNavigate }) => {
+const Navbar = ({ currentPath, onNavigate, user }) => {
   return (
     <header className="border-b border-gray-800">
       <nav className="flex items-center justify-between px-6 md:px-24 py-6">
@@ -50,13 +50,32 @@ const Navbar = ({ currentPath, onNavigate }) => {
           })}
         </ul>
 
-        <button
-          type="button"
-          onClick={() => onNavigate('/events')}
-          className="bg-[#FF6B00] text-[#1A110C] font-bold uppercase tracking-wider text-sm px-6 py-3 hover:bg-orange-600 transition-colors whitespace-nowrap"
-        >
-          Vem Pro Samba
-        </button>
+        <div className="flex items-center gap-3">
+          {user ? (
+            <button
+              type="button"
+              onClick={() => onNavigate('/profile')}
+              className="border border-[#FF6B00] text-[#FF6B00] font-bold uppercase tracking-wider text-sm px-4 py-3 hover:bg-[#FF6B00] hover:text-[#1A110C] transition-colors whitespace-nowrap"
+            >
+              Meu Perfil
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onNavigate('/login')}
+              className="border border-[#FF6B00] text-[#FF6B00] font-bold uppercase tracking-wider text-sm px-4 py-3 hover:bg-[#FF6B00] hover:text-[#1A110C] transition-colors whitespace-nowrap"
+            >
+              Entrar
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => onNavigate('/events')}
+            className="bg-[#FF6B00] text-[#1A110C] font-bold uppercase tracking-wider text-sm px-6 py-3 hover:bg-orange-600 transition-colors whitespace-nowrap"
+          >
+            Vem Pro Samba
+          </button>
+        </div>
       </nav>
     </header>
   );
