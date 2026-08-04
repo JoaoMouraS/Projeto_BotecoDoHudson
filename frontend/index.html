@@ -4,7 +4,31 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>web</title>
+    <title>Boteco do Hudson</title>
+    <script>
+      tailwind = tailwind || {};
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bg: {
+                DEFAULT: '#1A110C',
+                surface: '#221711'
+              },
+              brand: {
+                DEFAULT: '#FF6B00',
+                hover: '#E65F00'
+              }
+            },
+            fontFamily: {
+              heading: ['Oswald', 'sans-serif'],
+              sans: ['Inter', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <div id="root"></div>

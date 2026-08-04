@@ -1,53 +1,64 @@
 import React from 'react';
 
+const links = [
+  { label: 'Início', path: '/' },
+  { label: 'Cardápio', path: '/menu' },
+  { label: 'Eventos', path: '/events' },
+  { label: 'Fotos', path: '/gallery' },
+  { label: 'Reservar Mesa', path: '/reservation', accent: true },
+];
+
 const Navbar = ({ currentPath, onNavigate }) => {
-  const links = [
-    { label: 'INÍCIO', path: '/' },
-    { label: 'CARDÁPIO', path: '/menu' },
-    { label: 'EVENTOS', path: '/events' },
-    { label: 'FOTOS', path: '/gallery' },
-    { label: 'RESERVAR MESA', path: '/reservation' },
-  ];
-
   return (
-    <nav className="flex items-center justify-between px-6 md:px-12 py-6 bg-[#1A110C] text-white">
-      <button type="button" onClick={() => onNavigate('/')} className="flex items-center gap-3 text-left">
-        <div className="bg-[#FF6B00] p-2 rounded flex items-center justify-center">
-          <svg className="w-6 h-6 text-[#1A110C]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"></path>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 1v3M10 1v3M14 1v3"></path>
-          </svg>
-        </div>
-        <div className="flex flex-col justify-center">
-          <span className="font-bold text-xl leading-none text-[#FF6B00] tracking-wide">BOTECO</span>
-          <span className="font-bold text-xl leading-none italic tracking-wider">DO HUDSON</span>
-        </div>
-      </button>
+    <header className="border-b border-gray-800">
+      <nav className="flex items-center justify-between px-6 md:px-24 py-6">
+        <button
+          type="button"
+          onClick={() => onNavigate('/')}
+          className="flex items-center gap-3"
+        >
+          <div className="bg-[#FF6B00] p-2 rounded flex items-center justify-center">
+            <svg className="w-5 h-5 text-[#1A110C]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"></path>
+            </svg>
+          </div>
+          <span className="font-heading font-bold text-xl leading-none text-[#FF6B00] text-left">
+            BOTECO<br /><span className="text-white">DO HUDSON</span>
+          </span>
+        </button>
 
-      <div className="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-widest text-gray-300">
-        {links.map((link) => {
-          const isActive = currentPath === link.path;
-          return (
-            <button
-              key={link.path}
-              type="button"
-              onClick={() => onNavigate(link.path)}
-              className={`transition-colors ${isActive ? 'text-[#FF6B00]' : 'hover:text-white'}`}
-            >
-              {link.label}
-            </button>
-          );
-        })}
-      </div>
+        <ul className="hidden md:flex items-center gap-10">
+          {links.map((link) => {
+            const isActive = currentPath === link.path;
+            return (
+              <li key={link.path}>
+                <button
+                  type="button"
+                  onClick={() => onNavigate(link.path)}
+                  className={`text-sm font-bold uppercase tracking-widest transition-colors ${
+                    link.accent
+                      ? 'text-[#FF6B00] hover:text-orange-400'
+                      : isActive
+                        ? 'text-white'
+                        : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
 
-      <button
-        type="button"
-        onClick={() => onNavigate('/events')}
-        className="hidden md:block bg-[#FF6B00] text-[#1A110C] px-6 py-2 font-bold text-sm tracking-wider hover:bg-orange-600 transition-colors"
-      >
-        VEM PRO SAMBA
-      </button>
-    </nav>
+        <button
+          type="button"
+          onClick={() => onNavigate('/events')}
+          className="bg-[#FF6B00] text-[#1A110C] font-bold uppercase tracking-wider text-sm px-6 py-3 hover:bg-orange-600 transition-colors whitespace-nowrap"
+        >
+          Vem Pro Samba
+        </button>
+      </nav>
+    </header>
   );
 };
 

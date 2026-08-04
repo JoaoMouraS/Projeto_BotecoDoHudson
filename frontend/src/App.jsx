@@ -6,6 +6,7 @@ import Gallery from './pages/Gallery';
 import Reservation from './pages/Reservation';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import './index.css';
 
 const routes = {
   '/': Home,
