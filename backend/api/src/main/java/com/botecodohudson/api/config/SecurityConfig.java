@@ -1,10 +1,11 @@
 package com.botecodohudson.api.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -14,12 +15,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // Desativa a proteção CSRF para permitir requisições POST do Postman
-            .csrf(csrf -> csrf.disable()) 
-            // Libera o acesso a qualquer rota pública temporariamente
+            .csrf(csrf -> csrf.disable()) // Desabilita CSRF para APIs REST
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll() 
+                .requestMatchers("/api/login", "/api/reservas/**", "/api/usuarios/cadastrar").permitAll() // Libera endpoints iniciais
+                .anyRequest().authenticated()
             );
+            
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

@@ -5,6 +5,7 @@ services:
       - 'POSTGRES_DB=BotecoDoHudson_db'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
+      - 'ADMIN_PASSWORD=${ADMIN_PASSWORD}'
     ports:
       - '5433:5432'
   rabbitmq:
