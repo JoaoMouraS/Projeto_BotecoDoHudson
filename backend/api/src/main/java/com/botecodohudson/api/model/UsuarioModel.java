@@ -21,7 +21,6 @@ public class UsuarioModel {
     @Column(nullable = false)
     private String senha;
 
-    // Pode ser "ADMIN" ou "USER"
     @Column(nullable = false)
     private String role = "USER"; 
 }

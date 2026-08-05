@@ -1,0 +1,19 @@
+# SO
+.DS_Store
+Thumbs.db
+
+# Backend (Maven)
+backend/api/target/
+backend/api/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Node/Vite)
+frontend/node_modules/
+frontend/dist/
+
+# Variáveis de ambiente (nunca commitar segredos)
+.env
+backend/api/.env
+
+# IDE
+.vscode/
+.idea/
