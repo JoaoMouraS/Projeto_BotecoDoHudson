@@ -4,6 +4,8 @@ import com.botecodohudson.api.model.ReservaModel;
 import com.botecodohudson.api.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservaService {
 
@@ -15,5 +17,9 @@ public class ReservaService {
 
     public ReservaModel criarReserva(ReservaModel reserva) {
         return reservaRepository.save(reserva);
+    }
+
+    public List<ReservaModel> listarTodas() {
+        return reservaRepository.findAll();
     }
 }
