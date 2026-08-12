@@ -1,0 +1,31 @@
+:root {
+  /* Cores - paleta "boteco à noite" */
+  --color-bg: #17110c;
+  --color-bg-elevated: #211710;
+  --color-bg-elevated-2: #2a1e15;
+  --color-accent: #ff6a1a;
+  --color-accent-hover: #ff8642;
+  --color-text: #f6efe4;
+  --color-text-muted: #b8a693;
+  --color-border: rgba(246, 239, 228, 0.1);
+  --color-border-strong: rgba(246, 239, 228, 0.18);
+
+  /* Tipografia */
+  --font-display: "Anton", "Archivo Black", sans-serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Space Mono", monospace;
+
+  /* Espaçamento */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+
+  /* Layout */
+  --container-width: 1200px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}

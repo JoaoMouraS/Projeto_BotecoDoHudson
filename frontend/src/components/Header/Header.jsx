@@ -1,0 +1,65 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import "./Header.css";
+
+const NAV_LINKS = [
+  { label: "Início", href: "/" },
+  { label: "Cardápio", href: "/cardapio" },
+  { label: "Eventos", href: "/eventos" },
+  { label: "Fotos", href: "/fotos" },
+  { label: "Reservar Mesa", href: "/reservar" },
+];
+
+export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <header className="header">
+      <div className="header__inner container">
+        <Link to="/" className="header__brand">
+          <span className="header__brand-icon" aria-hidden="true">
+            🍺
+          </span>
+          <span className="header__brand-text">
+            Boteco
+            <span className="header__brand-text--accent">do Hudson</span>
+          </span>
+        </Link>
+
+        <nav
+          className={`header__nav ${menuOpen ? "header__nav--open" : ""}`}
+          aria-label="Navegação principal"
+        >
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              to={link.href}
+              className={
+                link.label === "Reservar Mesa"
+                  ? "header__link header__link--highlight"
+                  : "header__link"
+              }
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <Link to="/eventos" className="header__cta">
+          Vem pro Samba
+        </Link>
+
+        <button
+          className="header__toggle"
+          aria-label="Abrir menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+    </header>
+  );
+}
