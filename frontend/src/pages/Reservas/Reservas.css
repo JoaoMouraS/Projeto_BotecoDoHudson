@@ -1,0 +1,165 @@
+.reservas-container {
+  background-color: #1A1311;
+  color: #FFF;
+  min-height: 100vh;
+  padding: 80px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.reservas-header .subtitle {
+  color: #FF6600;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+.reservas-header h1 {
+  font-size: 4rem;
+  text-transform: uppercase;
+  margin: 10px 0 50px;
+}
+
+.reservas-content {
+  display: flex;
+  gap: 40px;
+}
+
+.reservas-form-box, .reservas-info-box {
+  flex: 1;
+  border: 1px solid #332A25;
+  padding: 40px;
+  border-radius: 4px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  color: #A09E9C;
+  font-size: 12px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.form-group input, .form-group select {
+  background: transparent;
+  border: 1px solid #332A25;
+  color: #FFF;
+  padding: 15px;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #332A25;
+}
+
+.form-checkbox label {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-checkbox label strong {
+  color: #FFF;
+}
+
+.form-checkbox label span {
+  color: #A09E9C;
+  font-size: 12px;
+}
+
+.btn-submit {
+  background-color: #FF6600;
+  color: #1A1311;
+  border: none;
+  padding: 15px 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reservas-info-box h2 {
+  font-size: 2.5rem;
+  margin: 10px 0 20px;
+}
+
+.progress-bar {
+  background-color: #332A25;
+  height: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.progress-fill {
+  background-color: #FF6600;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.reservas-info-box p {
+  color: #A09E9C;
+  margin-bottom: 30px;
+}
+
+.qr-box {
+  display: flex;
+  background-color: #FFF;
+  color: #1A1311;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 4px;
+}
+
+.qr-placeholder {
+  width: 80px;
+  height: 80px;
+  background-color: #EEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.qr-link p {
+  color: #1A1311;
+  margin: 0 0 5px 0;
+  font-weight: bold;
+}
+
+.qr-link span {
+  color: #FF6600;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.qr-link button {
+  background: none;
+  border: none;
+  color: #1A1311;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cancel-policy {
+  margin-top: 30px;
+  border-left: 2px solid #FF6600;
+  padding-left: 15px;
+}
+
+.cancel-policy p {
+  margin: 0;
+  font-size: 0.9rem;
+}

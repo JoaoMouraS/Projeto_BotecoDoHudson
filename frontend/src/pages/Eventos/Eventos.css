@@ -1,0 +1,129 @@
+.eventos-container {
+  background-color: #1A1311;
+  color: #FFF;
+  min-height: 100vh;
+}
+
+.eventos-hero {
+  background-image: linear-gradient(to right, rgba(26,19,17,0.9) 0%, rgba(26,19,17,0.4) 100%), url('/assets/evento-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 120px 5%;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-content .subtitle {
+  color: #FF6600;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 10px 0 20px;
+  color: #FF6600; /* Destaque laranja nas letras */
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #E0E0E0;
+}
+
+.agenda-section {
+  padding: 60px 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.agenda-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.agenda-header h2 {
+  font-size: 3rem;
+  text-transform: uppercase;
+}
+
+.mes-select {
+  background: transparent;
+  color: #FFF;
+  border: 1px solid #332A25;
+  padding: 10px;
+}
+
+.agenda-item {
+  display: flex;
+  border: 1px solid #FF6600;
+  padding: 30px;
+  border-radius: 4px;
+  align-items: center;
+  gap: 30px;
+}
+
+.agenda-date .day {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #FF6600;
+  text-align: center;
+}
+
+.agenda-info {
+  flex: 1;
+}
+
+.agenda-info h3 {
+  font-size: 2rem;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+.agenda-info p {
+  color: #A09E9C;
+  margin: 0 0 15px 0;
+}
+
+.agenda-details {
+  display: flex;
+  gap: 20px;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.agenda-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: right;
+}
+
+.agenda-actions .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background-color: #FF6600;
+  color: #1A1311;
+  border: none;
+  padding: 15px 30px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #FFF;
+  border: 1px solid #332A25;
+  padding: 15px 30px;
+  font-weight: bold;
+  cursor: pointer;
+}

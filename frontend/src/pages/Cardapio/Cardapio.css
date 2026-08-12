@@ -1,0 +1,137 @@
+.cardapio-container {
+  background-color: #1A1311;
+  color: #FFF;
+  min-height: 100vh;
+  padding: 80px 5%;
+  font-family: 'Inter', sans-serif;
+}
+
+.cardapio-content {
+  display: flex;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cardapio-left {
+  flex: 1;
+}
+
+.cardapio-left .subtitle {
+  color: #FF6600;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.cardapio-left h1 {
+  font-size: 4rem;
+  text-transform: uppercase;
+  margin: 10px 0 20px;
+  line-height: 1.1;
+}
+
+.cardapio-left p {
+  color: #A09E9C;
+  margin-bottom: 40px;
+}
+
+.cardapio-image-grid img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.cardapio-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.prato-dia-card {
+  background-color: #FF6600;
+  padding: 30px;
+  border-radius: 4px;
+  color: #1A1311;
+  margin-bottom: 40px;
+}
+
+.prato-dia-badge {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.prato-dia-card h2 {
+  font-size: 2.5rem;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.prato-dia-card .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: block;
+  margin-top: 20px;
+}
+
+.menu-nav {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #332A25;
+  margin-bottom: 30px;
+}
+
+.menu-nav button {
+  background: none;
+  border: none;
+  color: #A09E9C;
+  padding: 10px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.menu-nav button.active {
+  color: #1A1311;
+  background-color: #FF6600;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #332A25;
+}
+
+.item-info h3 {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+}
+
+.item-info p {
+  color: #A09E9C;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.item-price {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #FF6600;
+  font-weight: bold;
+}
+
+.add-btn {
+  background: none;
+  border: none;
+  color: #FFF;
+  font-size: 1.5rem;
+  cursor: pointer;
+}

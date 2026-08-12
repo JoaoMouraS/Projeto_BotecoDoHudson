@@ -1,0 +1,135 @@
+.login-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #1A1311;
+  color: #FFF;
+}
+
+.text-orange {
+  color: #FF6600;
+}
+
+.login-left {
+  flex: 1;
+  background-image: url('/assets/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.login-overlay {
+  background: rgba(26, 19, 17, 0.8);
+  height: 100%;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #FF6600;
+}
+
+.left-content .subtitle {
+  color: #FF6600;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+.left-content h1 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 10px 0 20px;
+}
+
+.left-content p {
+  font-size: 1.2rem;
+  color: #E0E0E0;
+  max-width: 400px;
+}
+
+.left-footer {
+  font-size: 12px;
+  color: #A09E9C;
+  letter-spacing: 1px;
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+}
+
+.login-form-box {
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-form-box .subtitle {
+  color: #FF6600;
+  letter-spacing: 2px;
+  font-size: 12px;
+}
+
+.login-form-box h2 {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  line-height: 1;
+  margin: 10px 0 20px;
+}
+
+.login-form-box .description {
+  color: #A09E9C;
+  margin-bottom: 40px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  color: #A09E9C;
+  font-size: 12px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.form-group input {
+  background: transparent;
+  border: 1px solid #332A25;
+  color: #FFF;
+  padding: 15px;
+}
+
+.btn-login {
+  width: 100%;
+  background-color: #FF6600;
+  color: #1A1311;
+  border: none;
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #A09E9C;
+}
+
+.login-footer a {
+  color: #A09E9C;
+  text-decoration: underline;
+}
