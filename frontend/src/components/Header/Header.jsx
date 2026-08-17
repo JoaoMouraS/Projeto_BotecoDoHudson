@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 
 const NAV_LINKS = [
@@ -12,6 +12,23 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLogado, setIsLogado] = useState(false);
+  const navigate = useNavigate();
+
+  // Verifica se o usuário tem um token salvo ao carregar o Header
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLogado(true);
+    }
+  }, []);
+
+  // Função para fazer logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLogado(false);
+    navigate('/');
+  };
 
   return (
     <header className="header">
@@ -45,12 +62,24 @@ export default function Header() {
           ))}
           
           <div className="header__auth-links">
+            {isLogado ? (
+              // Mostra o avatar e botão de sair se estiver logado
+              <div className="header__user-profile">
+                <Link to="/dashboard" className="header__avatar" title="Acessar Dashboard">
+                  H
+                </Link>
+                <button onClick={handleLogout} className="header__logout">
+                  SAIR
+                </button>
+              </div>
+            ) : (
+              // Mostra o botão de login padrão se não estiver logado
               <Link to="/login" className="header__cta">
-              Vem pro Samba
-               </Link>
+                Vem pro Samba
+              </Link>
+            )}
           </div>
         </nav>
-
 
         <button
           className="header__toggle"

@@ -14,6 +14,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// IMPORTS NOVOS PARA O CORS
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -27,16 +33,37 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            // 1. AVISA O SPRING SECURITY PARA USAR A CONFIGURAÇÃO DE CORS ABAIXO
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll() // Permite acesso sem autenticação
-                .anyRequest().authenticated() // Exige autenticação para qualquer outro endpoint
+                .requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
+                .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll() 
+                .anyRequest().authenticated() 
             )
-            // Adiciona o filtro que criamos antes do filtro padrão do Spring
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    // 2. BEAN COM AS REGRAS GLOBAIS DE CORS
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        
+        // Coloque a URL exata do seu front-end (sem barra no final)
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); 
+        
+        // Permite os métodos essenciais, PRINCIPALMENTE o OPTIONS que o navegador usa no preflight
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); 
+        
+        // Libera os cabeçalhos usados pelo Axios e pelo seu JWT
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); 
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean 

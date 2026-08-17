@@ -45,6 +45,7 @@ public class LoginController {
             // Retorna um JSON contendo o token para evitar erros de leitura no Axios do React
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
+            response.put("role", usuario.getRole()); 
             
             return ResponseEntity.ok(response);
         } else {
