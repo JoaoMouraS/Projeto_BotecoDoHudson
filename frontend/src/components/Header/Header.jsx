@@ -43,11 +43,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          
+          <div className="header__auth-links">
+              <Link to="/login" className="header__cta">
+              Vem pro Samba
+               </Link>
+          </div>
         </nav>
 
-        <Link to="/eventos" className="header__cta">
-          Vem pro Samba
-        </Link>
 
         <button
           className="header__toggle"

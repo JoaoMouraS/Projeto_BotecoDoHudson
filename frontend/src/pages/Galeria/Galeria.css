@@ -153,6 +153,13 @@
   .face-search {
     flex-direction: column;
     align-items: flex-start;
+    padding: var(--space-3);
+  }
+
+  .face-search__actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .galeria__grid {
@@ -160,7 +167,42 @@
   }
 }
 
+@media (max-width: 680px) {
+  .galeria {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-6);
+  }
+
+  .face-search__title {
+    font-size: clamp(22px, 7vw, 26px);
+  }
+
+  .face-search__desc {
+    font-size: 14px;
+  }
+
+  .face-search__btn {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+  }
+
+  .face-search__preview {
+    width: 60px;
+    height: 60px;
+  }
+}
+
 @media (max-width: 520px) {
+  .face-search {
+    padding: var(--space-2);
+  }
+
+  .filter-pill {
+    width: 100%;
+    text-align: center;
+  }
+
   .galeria__grid {
     grid-template-columns: 1fr;
   }

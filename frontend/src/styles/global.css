@@ -17,6 +17,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 img {
@@ -43,7 +44,7 @@ ul {
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 var(--space-3);
+  padding: 0 clamp(16px, 4vw, 24px);
 }
 
 .eyebrow {
@@ -64,5 +65,11 @@ ul {
   * {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+@media (max-width: 520px) {
+  :focus-visible {
+    outline-offset: 2px;
   }
 }

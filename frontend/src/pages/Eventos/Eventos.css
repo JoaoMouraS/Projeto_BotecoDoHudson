@@ -127,3 +127,76 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+@media (max-width: 1024px) {
+  .eventos-hero {
+    padding-top: 90px;
+    padding-bottom: 90px;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.8rem, 10vw, 4.4rem);
+  }
+
+  .agenda-header h2 {
+    font-size: clamp(2rem, 7vw, 3rem);
+  }
+
+  .agenda-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+  }
+
+  .agenda-actions {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .agenda-actions .price {
+    margin-bottom: 0;
+    margin-right: 8px;
+    align-self: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .eventos-hero {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .agenda-section {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+
+  .agenda-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .agenda-info h3 {
+    font-size: clamp(1.4rem, 6vw, 1.9rem);
+  }
+
+  .agenda-details {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    padding: 12px 18px;
+  }
+}
