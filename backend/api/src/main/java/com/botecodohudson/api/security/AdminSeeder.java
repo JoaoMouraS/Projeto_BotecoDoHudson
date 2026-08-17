@@ -1,4 +1,4 @@
-package com.botecodohudson.api.config;
+package com.botecodohudson.api.security;
 
 import com.botecodohudson.api.model.UsuarioModel;
 import com.botecodohudson.api.repository.UsuarioRepository;
