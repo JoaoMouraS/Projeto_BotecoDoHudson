@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Header.css";
 
 const NAV_LINKS = [
@@ -12,23 +13,23 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isLogado, setIsLogado] = useState(false);
   const navigate = useNavigate();
 
-  // Verifica se o usuário tem um token salvo ao carregar o Header
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLogado(true);
-    }
-  }, []);
+  // Toda a lógica de "quem está logado / é admin" vem do contexto único.
+  // Assim o Header nunca fica dessincronizado do resto do app (Login, Perfil,
+  // rotas protegidas etc. todos leem do mesmo lugar).
+  const { isAutenticado, isAdmin, usuario, logout } = useAuth();
 
-  // Função para fazer logout
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLogado(false);
-    navigate('/');
+    logout();
+    setMenuOpen(false);
+    navigate("/");
   };
+
+  // Link/rota do avatar: admin vai pro painel, usuário comum vai pro próprio perfil.
+  const avatarDestino = isAdmin ? "/dashboard" : "/perfil";
+  const avatarTitulo = isAdmin ? "Acessar Dashboard" : "Meu perfil";
+  const inicialAvatar = usuario?.nome ? usuario.nome.charAt(0).toUpperCase() : "?";
 
   return (
     <header className="header">
@@ -56,25 +57,47 @@ export default function Header() {
                   ? "header__link header__link--highlight"
                   : "header__link"
               }
+              onClick={() => setMenuOpen(false)}
             >
               {link.label}
             </Link>
           ))}
-          
+
+          {/* Link extra de navegação, visível só para ADMIN */}
+          {isAdmin && (
+            <Link
+              to="/dashboard"
+              className="header__link"
+              onClick={() => setMenuOpen(false)}
+            >
+              Dashboard
+            </Link>
+          )}
+
           <div className="header__auth-links">
-            {isLogado ? (
-              // Mostra o avatar e botão de sair se estiver logado
+            {isAutenticado ? (
+              // Logado (USER ou ADMIN): mostra avatar + sair.
+              // O destino do avatar muda de acordo com a role.
               <div className="header__user-profile">
-                <Link to="/dashboard" className="header__avatar" title="Acessar Dashboard">
-                  H
+                <Link
+                  to={avatarDestino}
+                  className="header__avatar"
+                  title={avatarTitulo}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {inicialAvatar}
                 </Link>
                 <button onClick={handleLogout} className="header__logout">
                   SAIR
                 </button>
               </div>
             ) : (
-              // Mostra o botão de login padrão se não estiver logado
-              <Link to="/login" className="header__cta">
+              // Visitante: mostra o CTA de login padrão
+              <Link
+                to="/login"
+                className="header__cta"
+                onClick={() => setMenuOpen(false)}
+              >
                 Vem pro Samba
               </Link>
             )}

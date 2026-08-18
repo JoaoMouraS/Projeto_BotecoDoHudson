@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/Header/Header';
+import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   // Estados do formulário
   const [email, setEmail] = useState('');
@@ -17,28 +19,25 @@ const Login = () => {
     setErro('');
 
     try {
-      // Ajuste a URL se no seu controller estiver /api/v1/auth/login
       const response = await axios.post('http://localhost:8080/api/login', {
         email,
         senha
       });
 
-      // Se deu certo, pega o token da resposta
-      const token = response.data.token;
-      
-      // Salva o token no LocalStorage do navegador
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-      // Redireciona o usuário para o Dashboard ou Home
-      navigate('/eventos');
+      // O backend devolve { token, role } — antes o código usava uma variável
+      // "role" que nunca tinha sido criada, o que estourava um erro no meio
+      // do processo e caía direto na mensagem "Erro no servidor".
+      const { token, role } = response.data;
 
-// Regra de redirecionamento:
+      // Salva o token/role e carrega os dados do usuário (usado no Header/Perfil)
+      await login(token, role);
+
+      // Regra de redirecionamento: só ADMIN vai pro dashboard
       if (role === 'ADMIN') {
-        navigate('/dashboard'); // Admin vai pro painel
+        navigate('/dashboard');
       } else {
-        navigate('/'); // Usuário comum vai pra página inicial
+        navigate('/');
       }
-
 
     } catch (error) {
       if (error.response && error.response.status === 401) {
