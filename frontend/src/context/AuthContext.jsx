@@ -57,6 +57,12 @@ export function AuthProvider({ children }) {
     setRole(null);
   }, []);
 
+  const atualizarUsuario = useCallback((dados) => {
+    setUsuario(dados);
+    setRole(dados.role);
+    localStorage.setItem("role", dados.role);
+  }, []);
+
   const value = {
     usuario, // dados públicos do usuário (id, nome, email, role)
     role,
@@ -65,6 +71,7 @@ export function AuthProvider({ children }) {
     isAdmin: role === "ADMIN",
     login,
     logout,
+    atualizarUsuario,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

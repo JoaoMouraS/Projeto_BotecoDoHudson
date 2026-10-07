@@ -4,8 +4,8 @@
   min-height: 640px;
   display: flex;
   align-items: flex-end;
-  background: linear-gradient(155deg, #2a1a10 0%, #17110c 65%),
-    url("/hero.jpg") center/cover no-repeat;
+  background: linear-gradient(155deg, rgba(16, 13, 11, 0.2) 0%, #100d0b 85%),
+    url("/BotecoHudson.png") center/cover no-repeat;
   background-blend-mode: overlay;
 }
 

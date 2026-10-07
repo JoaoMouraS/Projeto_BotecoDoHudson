@@ -30,6 +30,8 @@ public class UsuarioModel implements UserDetails {
     @Column(nullable = false)
     private String role = "USER";
 
+    private String fotoUrl;
+
     // MÉTODOS OBRIGATÓRIOS DO SPRING SECURITY:
 
     @Override
@@ -66,5 +68,13 @@ public class UsuarioModel implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
     }
 }

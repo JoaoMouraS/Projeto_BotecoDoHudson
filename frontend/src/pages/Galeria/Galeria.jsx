@@ -1,25 +1,36 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
+import { listGalleryPhotos } from "../../services/gallery";
 import "./Galeria.css";
-
-const FILTERS = ["Todos", "Pagode do Hudson", "18 Jun 2024"];
-
-// Troque por dados reais vindos da API (ver services/gallery.js)
-const PHOTOS = [
-  { id: 1, event: "Pagode do Hudson", date: "18 Jun 2024", src: "/gallery/1.jpg" },
-  { id: 2, event: "Pagode do Hudson", date: "18 Jun 2024", src: "/gallery/2.jpg" },
-  { id: 3, event: "Feijoada & Batuque", date: "22 Jun 2024", src: "/gallery/3.jpg" },
-  { id: 4, event: "Pagode do Hudson", date: "18 Jun 2024", src: "/gallery/4.jpg" },
-  { id: 5, event: "Sexta no Terraço", date: "29 Jun 2024", src: "/gallery/5.jpg" },
-  { id: 6, event: "Feijoada & Batuque", date: "22 Jun 2024", src: "/gallery/6.jpg" },
-];
 
 export default function Galeria() {
   const [activeFilter, setActiveFilter] = useState("Todos");
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [galleryError, setGalleryError] = useState("");
   const [selfiePreview, setSelfiePreview] = useState(null);
   const [searching, setSearching] = useState(false);
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    listGalleryPhotos()
+      .then((data) => {
+        if (mounted) setPhotos(data);
+      })
+      .catch(() => {
+        if (mounted) setGalleryError("A galeria ainda não está disponível.");
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleSelfieFile = (file) => {
     if (!file) return;
@@ -37,10 +48,11 @@ export default function Galeria() {
     setTimeout(() => setSearching(false), 1200); // placeholder de loading
   };
 
+  const filters = ["Todos", ...new Set(photos.map((photo) => photo.event))];
   const filteredPhotos =
     activeFilter === "Todos"
-      ? PHOTOS
-      : PHOTOS.filter((p) => p.event === activeFilter || p.date === activeFilter);
+      ? photos
+      : photos.filter((photo) => photo.event === activeFilter);
 
   return (
     <>
@@ -112,7 +124,7 @@ export default function Galeria() {
 
         {/* FILTROS */}
         <div className="galeria__filters">
-          {FILTERS.map((filter) => (
+          {filters.map((filter) => (
             <button
               key={filter}
               className={`filter-pill ${
@@ -127,9 +139,14 @@ export default function Galeria() {
 
         {/* GRID DE FOTOS */}
         <div className="galeria__grid">
+          {loading && <p className="galeria__message">Carregando fotos...</p>}
+          {!loading && galleryError && <p className="galeria__message">{galleryError}</p>}
+          {!loading && !galleryError && filteredPhotos.length === 0 && (
+            <p className="galeria__message">Nenhuma foto publicada ainda.</p>
+          )}
           {filteredPhotos.map((photo) => (
             <figure key={photo.id} className="photo-card">
-              <img src={photo.src} alt={`Foto de ${photo.event}`} loading="lazy" />
+              <img src={photo.src} alt={photo.title} loading="lazy" />
               <span className="photo-card__watermark">Boteco do Hudson</span>
             </figure>
           ))}

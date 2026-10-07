@@ -1,14 +1,14 @@
 :root {
   /* Cores - paleta "boteco à noite" */
-  --color-bg: #17110c;
-  --color-bg-elevated: #211710;
-  --color-bg-elevated-2: #2a1e15;
-  --color-accent: #ff6a1a;
-  --color-accent-hover: #ff8642;
-  --color-text: #f6efe4;
-  --color-text-muted: #b8a693;
-  --color-border: rgba(246, 239, 228, 0.1);
-  --color-border-strong: rgba(246, 239, 228, 0.18);
+  --color-bg: #100d0b;
+  --color-bg-elevated: #1a1511;
+  --color-bg-elevated-2: #261c14;
+  --color-accent: #ff9b21;
+  --color-accent-hover: #ffc04d;
+  --color-text: #fff5df;
+  --color-text-muted: #c0aa88;
+  --color-border: rgba(255, 245, 223, 0.12);
+  --color-border-strong: rgba(255, 176, 69, 0.35);
 
   /* Tipografia */
   --font-display: "Anton", "Archivo Black", sans-serif;

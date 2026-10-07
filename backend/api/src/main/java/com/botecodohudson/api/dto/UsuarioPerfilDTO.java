@@ -11,12 +11,17 @@ public class UsuarioPerfilDTO {
     private String nome;
     private String email;
     private String role;
+    private String fotoUrl;
 
-    public UsuarioPerfilDTO(Long id, String nome, String email, String role) {
+    public UsuarioPerfilDTO() {
+    }
+
+    public UsuarioPerfilDTO(Long id, String nome, String email, String role, String fotoUrl) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.role = role;
+        this.fotoUrl = fotoUrl;
     }
 
     public Long getId() {
@@ -33,5 +38,17 @@ public class UsuarioPerfilDTO {
 
     public String getRole() {
         return role;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
     }
 }

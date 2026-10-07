@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import { RotaAdmin, RotaVisitante } from "./routes/RotasProtegidas";
+import { RotaAdmin, RotaAutenticada, RotaVisitante } from "./routes/RotasProtegidas";
 import Home from "./pages/Home/Home";
 import Galeria from "./pages/Galeria/Galeria";
 import Cadastro from "./pages/Cadastro/Cadastro";
@@ -10,6 +10,7 @@ import Cardapio from "./pages/Cardapio/Cardapio";
 import Eventos from "./pages/Eventos/Eventos";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Perfil/Perfil";
+import AdminConteudo from "./pages/AdminConteudo/AdminConteudo";
 import "./styles/global.css";
 
 // Conforme novas telas forem criadas (Cardápio, Eventos, Reservas, Login...),
@@ -38,7 +39,14 @@ export default function App() {
               </RotaVisitante>
             }
           />
-          <Route path="/reservar" element={<Reservas />} />
+          <Route
+            path="/reservar"
+            element={
+              <RotaAutenticada>
+                <Reservas />
+              </RotaAutenticada>
+            }
+          />
           <Route path="/cardapio" element={<Cardapio />} />
           <Route path="/eventos" element={<Eventos />} />
           <Route path="/perfil" element={<Perfil />} />
@@ -47,6 +55,22 @@ export default function App() {
             element={
               <RotaAdmin>
                 <Dashboard />
+              </RotaAdmin>
+            }
+          />
+          <Route
+            path="/admin/cardapio"
+            element={
+              <RotaAdmin>
+                <AdminConteudo tipo="cardapio" />
+              </RotaAdmin>
+            }
+          />
+          <Route
+            path="/admin/eventos"
+            element={
+              <RotaAdmin>
+                <AdminConteudo tipo="eventos" />
               </RotaAdmin>
             }
           />

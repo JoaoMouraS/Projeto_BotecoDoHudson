@@ -5,7 +5,7 @@
 }
 
 .eventos-hero {
-  background-image: linear-gradient(to right, rgba(26,19,17,0.9) 0%, rgba(26,19,17,0.4) 100%), url('/assets/evento-bg.jpg');
+  background-image: linear-gradient(to right, rgba(16,13,11,0.9) 0%, rgba(16,13,11,0.38) 100%), url('/Eventos.png');
   background-size: cover;
   background-position: center;
   padding: 120px 5%;
@@ -66,6 +66,20 @@
   border-radius: 4px;
   align-items: center;
   gap: 30px;
+}
+
+.agenda-image {
+  width: 150px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.agenda-images {
+  display: flex;
+  gap: 8px;
+  max-width: 320px;
+  overflow-x: auto;
 }
 
 .agenda-date .day {
@@ -146,6 +160,16 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 24px;
+  }
+
+  .agenda-image {
+    width: 100%;
+    height: 180px;
+  }
+
+  .agenda-images {
+    width: 100%;
+    max-width: none;
   }
 
   .agenda-actions {

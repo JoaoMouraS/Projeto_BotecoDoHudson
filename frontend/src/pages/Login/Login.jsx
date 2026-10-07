@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Header from '../../components/Header/Header';
 import { useAuth } from '../../context/AuthContext';
+import api from '../../services/api';
 import './Login.css';
 
 const Login = () => {
@@ -13,13 +13,15 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setErro('');
+    setEnviando(true);
 
     try {
-      const response = await axios.post('http://localhost:8080/api/login', {
+      const response = await api.post('/api/login', {
         email,
         senha
       });
@@ -45,6 +47,8 @@ const Login = () => {
       } else {
         setErro('Erro no servidor. Tente novamente mais tarde.');
       }
+    } finally {
+      setEnviando(false);
     }
   };
 
@@ -97,7 +101,9 @@ const Login = () => {
                 />
               </div>
 
-              <button type="submit" className="btn-login">ENTRAR ➔</button>
+              <button type="submit" className="btn-login" disabled={enviando}>
+                {enviando ? 'ENTRANDO...' : 'ENTRAR ➔'}
+              </button>
             </form>
 
             <div className="login-footer">

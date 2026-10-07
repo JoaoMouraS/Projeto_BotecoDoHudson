@@ -1,5 +1,5 @@
 .reservas-container {
-  background-color: #1A1311;
+  background: linear-gradient(rgba(16, 13, 11, 0.9), rgba(16, 13, 11, 0.96)), url('/ReservaMesa.png') center top / cover fixed;
   color: #FFF;
   min-height: 100vh;
   padding: 80px 5%;

@@ -40,6 +40,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll() 
+                .requestMatchers(HttpMethod.GET, "/api/cardapio", "/api/eventos", "/api/eventos/datas-disponiveis").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/reservas").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/reservas/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/reservas/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/cardapio/admin", "/api/eventos/admin").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/cardapio", "/api/eventos").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/cardapio/**", "/api/eventos/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/cardapio/**", "/api/eventos/**").hasRole("ADMIN")
                 .anyRequest().authenticated() 
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

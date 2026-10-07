@@ -30,3 +30,12 @@ export function RotaVisitante({ children }) {
 
   return children;
 }
+
+export function RotaAutenticada({ children }) {
+  const { isAutenticado, carregando } = useAuth();
+
+  if (carregando) return null;
+  if (!isAutenticado) return <Navigate to="/login" replace />;
+
+  return children;
+}

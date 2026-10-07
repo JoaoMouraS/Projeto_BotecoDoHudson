@@ -41,12 +41,8 @@ public class UsuarioController {
         // 3. CRIPTOGRAFA a senha antes de salvar! (Muito importante)
         novoUsuario.setSenha(passwordEncoder.encode(cadastroDTO.getSenha()));
 
-        // 4. Define o tipo de conta (se vier vazio do front, define como USER)
-        String role = cadastroDTO.getRole();
-        if (role == null || role.trim().isEmpty()) {
-            role = "USER";
-        }
-        novoUsuario.setRole(role);
+        // Contas públicas nunca podem escolher privilégios administrativos.
+        novoUsuario.setRole("USER");
 
         // 5. Salva no banco de dados
         usuarioRepository.save(novoUsuario);
@@ -68,9 +64,26 @@ public class UsuarioController {
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getRole()
+                usuario.getRole(),
+                usuario.getFotoUrl()
         );
         // Devolve os dados do usuário logado
         return ResponseEntity.ok(perfil);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> atualizarPerfil(Authentication authentication, @RequestBody UsuarioPerfilDTO dados) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof UsuarioModel usuario)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+        }
+
+        if (dados.getNome() == null || dados.getNome().isBlank()) {
+            return ResponseEntity.badRequest().body("Informe um nome válido.");
+        }
+
+        usuario.setNome(dados.getNome().trim());
+        usuario.setFotoUrl(dados.getFotoUrl());
+        usuarioRepository.save(usuario);
+        return ResponseEntity.ok(new UsuarioPerfilDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getRole(), usuario.getFotoUrl()));
     }
 }

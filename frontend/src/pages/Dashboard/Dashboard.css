@@ -108,6 +108,13 @@
   font-weight: bold;
 }
 
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -176,6 +183,67 @@
 .placeholder-text {
   color: #A09E9C;
   font-style: italic;
+}
+
+.dashboard-error {
+  color: #ff8f7a;
+}
+
+.reservas-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reserva-admin-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px solid #332A25;
+  padding-bottom: 12px;
+}
+
+.reserva-admin-row strong,
+.reserva-admin-row span {
+  display: block;
+}
+
+.reserva-admin-row span {
+  color: #A09E9C;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.reserva-admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reserva-admin-actions select,
+.reserva-admin-actions button {
+  border: 1px solid #59443a;
+  background: #241a17;
+  color: #FFF;
+  padding: 8px;
+}
+
+.evento-admin-row {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid #332A25;
+}
+
+.evento-admin-row span {
+  color: #A09E9C;
+  font-size: 0.85rem;
+}
+
+.reserva-admin-actions button {
+  color: #ff8f7a;
+  cursor: pointer;
 }
 
 @media (max-width: 1100px) {
