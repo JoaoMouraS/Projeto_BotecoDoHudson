@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/cardapio", "/api/eventos").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/eventos/*/imagens").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/eventos/*/ingressos").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/eventos/*/ingressos/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/eventos/*/ingressos/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/cardapio/**", "/api/eventos/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/cardapio/**", "/api/eventos/**").hasRole("ADMIN")

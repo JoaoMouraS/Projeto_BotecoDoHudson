@@ -145,10 +145,10 @@ const Eventos = () => {
                 <p>{evento.descricao}</p>
                 <div className="agenda-details"><span>🕒 {data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span><span>📍 {evento.local}</span></div>
                 {ingressos[evento.id]?.length > 0 && <div className="ticket-list">
-                  {ingressos[evento.id].map((ticket) => <span className="ticket-chip" key={ticket.id}>{ticket.nome}: {Number(ticket.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} · {ticket.publicoAlvo.toLowerCase()} · {Math.max(ticket.quantidadeTotal - ticket.quantidadeVendida, 0)} disponíveis</span>)}
+                  {ingressos[evento.id].map((ticket) => <span className="ticket-chip" key={ticket.id}>{ticket.nome}: {Number(ticket.preco).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} · {ticket.publicoAlvo.toLowerCase()} · {Math.max(ticket.quantidadeTotal - ticket.quantidadeVendida, 0)} disponíveis · vendas até {new Date(ticket.encerraVendasEm).toLocaleString('pt-BR')}</span>)}
                 </div>}
               </div>
-              <div className="agenda-actions"><span className="price">{Number(evento.precoIngresso).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>{evento.symplaUrl && <a className="btn-primary" href={evento.symplaUrl} target="_blank" rel="noreferrer">COMPRAR INGRESSO</a>}<button className="btn-secondary" onClick={() => window.location.href = '/reservar'}>RESERVAR MESA</button></div>
+              <div className="agenda-actions">{evento.symplaUrl && <a className="btn-primary" href={evento.symplaUrl} target="_blank" rel="noreferrer">COMPRAR INGRESSO</a>}<button className="btn-secondary" onClick={() => window.location.href = '/reservar'}>RESERVAR MESA</button></div>
             </div>;
           })}
         </div>

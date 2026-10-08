@@ -43,6 +43,8 @@ public class ReservaService {
         ingresso.setPreco(java.math.BigDecimal.ZERO);
         ingresso.setQuantidadeTotal(reserva.getQuantidadePessoas());
         ingresso.setQuantidadeVendida(reserva.getQuantidadePessoas());
+        ingresso.setValidoAte(evento.getDataEvento());
+        ingresso.setEncerraVendasEm(reserva.getDataReserva());
         ingressoRepository.save(ingresso);
         return salva;
     }

@@ -15,7 +15,6 @@ const CONFIG = {
       ["dataEventoDia", "Data do evento", "date"],
       ["horarioEvento", "Horário do evento", "time"],
       ["local", "Local", "text"],
-      ["precoIngresso", "Preço do ingresso", "number"],
       ["symplaUrl", "Link do Sympla", "url"],
     ],
     initial: { nome: "", descricao: "", dataEventoDia: "", horarioEvento: "", local: "Boteco do Hudson", precoIngresso: "", imagemUrl: "", symplaUrl: "", publicado: true },
@@ -31,7 +30,8 @@ export default function AdminConteudo({ tipo }) {
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
   const [imagens, setImagens] = useState([]);
-  const [ingresso, setIngresso] = useState({ nome: "", publicoAlvo: "TODOS", preco: "", quantidadeTotal: "" });
+  const ingressoVazio = { nome: "", publicoAlvo: "TODOS", preco: "", quantidadeTotal: "", validoAte: "", encerraVendasEm: "" };
+  const [ingressos, setIngressos] = useState([ingressoVazio]);
 
   const carregar = async () => {
     try {
@@ -56,7 +56,6 @@ export default function AdminConteudo({ tipo }) {
     try {
       const payload = { ...formulario };
       if (tipo === "eventos") {
-        payload.precoIngresso = Number(payload.precoIngresso);
         payload.dataEvento = `${payload.dataEventoDia}T${payload.horarioEvento}`;
         delete payload.dataEventoDia;
         delete payload.horarioEvento;
@@ -70,17 +69,26 @@ export default function AdminConteudo({ tipo }) {
         imagens.forEach((imagem) => formData.append("imagens", imagem));
         await api.post(`/api/eventos/${resposta.data.id}/imagens`, formData);
       }
-      if (tipo === "eventos" && ingresso.nome && ingresso.preco !== "" && ingresso.quantidadeTotal !== "") {
-        await api.post(`/api/eventos/${resposta.data.id}/ingressos`, {
-          ...ingresso,
-          preco: Number(ingresso.preco),
-          quantidadeTotal: Number(ingresso.quantidadeTotal),
-        });
+      if (tipo === "eventos") {
+        for (const ingresso of ingressos.filter((item) => item.nome && item.preco !== "" && item.quantidadeTotal !== "")) {
+          const ingressoPayload = {
+            ...ingresso,
+            preco: Number(ingresso.preco),
+            quantidadeTotal: Number(ingresso.quantidadeTotal),
+            validoAte: ingresso.validoAte.replace("T", "T"),
+            encerraVendasEm: ingresso.encerraVendasEm.replace("T", "T"),
+          };
+          if (ingresso.id) {
+            await api.put(`/api/eventos/${resposta.data.id}/ingressos/${ingresso.id}`, ingressoPayload);
+          } else {
+            await api.post(`/api/eventos/${resposta.data.id}/ingressos`, ingressoPayload);
+          }
+        }
       }
       setFormulario(config.initial);
       setEditando(null);
       setImagens([]);
-      setIngresso({ nome: "", publicoAlvo: "TODOS", preco: "", quantidadeTotal: "" });
+      setIngressos([ingressoVazio]);
       await carregar();
     } catch (requestError) {
       setErro(requestError.response?.data?.message || "Não foi possível salvar o registro.");
@@ -96,6 +104,13 @@ export default function AdminConteudo({ tipo }) {
       dataEventoDia: item.dataEvento?.slice(0, 10) || "",
       horarioEvento: item.dataEvento?.slice(11, 16) || "",
     } : item);
+    if (tipo === "eventos") {
+      api.get(`/api/eventos/${item.id}/ingressos`).then(({ data }) => setIngressos(data.map((ingresso) => ({
+        ...ingresso,
+        validoAte: ingresso.validoAte?.slice(0, 16) || "",
+        encerraVendasEm: ingresso.encerraVendasEm?.slice(0, 16) || "",
+      })))).catch(() => setIngressos([ingressoVazio]));
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -129,12 +144,19 @@ export default function AdminConteudo({ tipo }) {
                 {name === "dataEventoDia" ? <EventCalendar value={formulario[name]} min={new Date().toISOString().slice(0, 10)} onChange={(value) => setFormulario((atual) => ({ ...atual, dataEventoDia: value }))} /> : <input name={name} type={type} value={formulario[name] ?? ""} onChange={atualizar} required={name !== "imagemUrl" && name !== "descricao"} step={type === "number" ? "0.01" : undefined} />}
               </label>
             ))}
-            {tipo === "eventos" && <>
-              <label>Nome do ingresso<input value={ingresso.nome} onChange={(event) => setIngresso((atual) => ({ ...atual, nome: event.target.value }))} placeholder="Ex.: Off feminino" /></label>
-              <label>Público do ingresso<select value={ingresso.publicoAlvo} onChange={(event) => setIngresso((atual) => ({ ...atual, publicoAlvo: event.target.value }))}><option value="TODOS">Todos</option><option value="MULHERES">Mulheres</option><option value="HOMENS">Homens</option><option value="RESERVA">Reserva de mesa</option></select></label>
-              <label>Preço do ingresso<input type="number" min="0" step="0.01" value={ingresso.preco} onChange={(event) => setIngresso((atual) => ({ ...atual, preco: event.target.value }))} placeholder="10.00" /></label>
-              <label>Quantidade disponível<input type="number" min="1" value={ingresso.quantidadeTotal} onChange={(event) => setIngresso((atual) => ({ ...atual, quantidadeTotal: event.target.value }))} placeholder="100" /></label>
-            </>}
+            {tipo === "eventos" && <div className="ticket-builder">
+              <div className="ticket-builder__heading"><h3>Ingressos e lotes</h3><button type="button" onClick={() => setIngressos((atuais) => [...atuais, { ...ingressoVazio }])}>+ Adicionar tipo</button></div>
+              {ingressos.map((ingresso, index) => <div className="ticket-builder__row" key={index}>
+                <strong>Ingresso {index + 1}</strong>
+                <input placeholder="Nome: Off feminino" value={ingresso.nome} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, nome: event.target.value } : item))} />
+                <select value={ingresso.publicoAlvo} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, publicoAlvo: event.target.value } : item))}><option value="TODOS">Todos</option><option value="MULHERES">Mulheres</option><option value="HOMENS">Homens</option><option value="RESERVA">Reserva de mesa</option></select>
+                <input type="number" min="0" step="0.01" placeholder="Preço" value={ingresso.preco} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, preco: event.target.value } : item))} />
+                <input type="number" min="1" placeholder="Quantidade" value={ingresso.quantidadeTotal} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, quantidadeTotal: event.target.value } : item))} />
+                <label>Válido até<input type="datetime-local" value={ingresso.validoAte} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, validoAte: event.target.value } : item))} /></label>
+                <label>Encerra vendas<input type="datetime-local" value={ingresso.encerraVendasEm} onChange={(event) => setIngressos((atuais) => atuais.map((item, itemIndex) => itemIndex === index ? { ...item, encerraVendasEm: event.target.value } : item))} /></label>
+                {ingressos.length > 1 && <button type="button" onClick={() => setIngressos((atuais) => atuais.filter((_, itemIndex) => itemIndex !== index))}>Remover</button>}
+              </div>)}
+            </div>}
             {tipo === "eventos" && <label>Imagens do evento<input type="file" accept="image/*" multiple onChange={(event) => setImagens(Array.from(event.target.files || []))} /><small>As imagens serão salvas em event-images/events/{editando || "novo-evento"}.</small></label>}
           </div>
           <label className="admin-form__check">

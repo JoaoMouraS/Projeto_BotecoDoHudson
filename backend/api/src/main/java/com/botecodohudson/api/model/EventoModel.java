@@ -39,8 +39,7 @@ public class EventoModel {
     @Column(nullable = false)
     private String local;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column(nullable = true)
     private BigDecimal precoIngresso;
 
     private String imagemUrl;
