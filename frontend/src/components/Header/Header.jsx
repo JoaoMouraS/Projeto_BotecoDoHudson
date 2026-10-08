@@ -5,7 +5,6 @@ import "./Header.css";
 
 const NAV_LINKS = [
   { label: "Início", href: "/" },
-  { label: "Cardápio", href: "/cardapio" },
   { label: "Eventos", href: "/eventos" },
   { label: "Fotos", href: "/fotos" },
   { label: "Reservar Mesa", href: "/reservar" },

@@ -1,0 +1,18 @@
+.admin-calendar {
+  width: 100%;
+  max-width: 360px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #fff;
+  color: #17233f;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, .18);
+}
+.admin-calendar__heading,.admin-calendar__weekdays,.admin-calendar__days { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; align-items: center; }
+.admin-calendar__heading { grid-template-columns: 40px 1fr 40px; margin-bottom: 15px; }
+.admin-calendar__heading strong { color: #555968; font-size: 15px; }
+.admin-calendar__heading button { border: 0; background: transparent; color: #0795f5; font-size: 30px; cursor: pointer; }
+.admin-calendar__weekdays { color: #555968; font-weight: 700; font-size: 12px; margin-bottom: 7px; }
+.admin-calendar__days { gap: 3px 0; }
+.admin-calendar__days button { min-height: 35px; border: 0; border-radius: 50%; background: transparent; color: #17233f; cursor: pointer; }
+.admin-calendar__days button:disabled { color: #b8bdc8; cursor: default; }
+.admin-calendar__days button.is-selected { background: #0795f5; color: #fff; }

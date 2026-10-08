@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.botecodohudson.api.repository.EventoRepository;
+import com.botecodohudson.api.model.EventoModel;
+import com.botecodohudson.api.model.IngressoModel;
+import com.botecodohudson.api.repository.IngressoRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 
 @Service
@@ -16,17 +19,32 @@ public class ReservaService {
 
     private final ReservaRepository reservaRepository;
     private final EventoRepository eventoRepository;
+    private final IngressoRepository ingressoRepository;
 
-    public ReservaService(ReservaRepository reservaRepository, EventoRepository eventoRepository) {
+    public ReservaService(ReservaRepository reservaRepository, EventoRepository eventoRepository, IngressoRepository ingressoRepository) {
         this.reservaRepository = reservaRepository;
         this.eventoRepository = eventoRepository;
+        this.ingressoRepository = ingressoRepository;
     }
 
     public ReservaModel criarReserva(ReservaModel reserva) {
         validarDataComEvento(reserva.getDataReserva());
         reserva.setStatus("PENDENTE");
         reserva.setStatusReserva(true);
-        return reservaRepository.save(reserva);
+        ReservaModel salva = reservaRepository.save(reserva);
+        EventoModel evento = eventoRepository.findByPublicadoTrueAndDataEventoAfterOrderByDataEventoAsc(
+            reserva.getDataReserva().minusNanos(1)).stream()
+            .filter(item -> item.getDataEvento().toLocalDate().equals(reserva.getDataReserva().toLocalDate()))
+            .findFirst().orElseThrow();
+        IngressoModel ingresso = new IngressoModel();
+        ingresso.setEvento(evento);
+        ingresso.setNome("Reserva de mesa #" + salva.getIdReserva());
+        ingresso.setPublicoAlvo("RESERVA");
+        ingresso.setPreco(java.math.BigDecimal.ZERO);
+        ingresso.setQuantidadeTotal(reserva.getQuantidadePessoas());
+        ingresso.setQuantidadeVendida(reserva.getQuantidadePessoas());
+        ingressoRepository.save(ingresso);
+        return salva;
     }
 
     private void validarDataComEvento(java.time.LocalDateTime dataReserva) {

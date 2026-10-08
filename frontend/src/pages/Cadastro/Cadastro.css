@@ -1,3 +1,5 @@
+@import url('../Login/Login.css');
+
 .login-container {
   display: flex;
   /* Desconta o tamanho do header para não criar barra de rolagem atoa */

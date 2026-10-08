@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import com.botecodohudson.api.service.SupabaseStorageService;
 
 import java.util.Optional;
 
@@ -23,6 +25,9 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SupabaseStorageService storageService;
 
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioCadastroDTO cadastroDTO) {
@@ -85,5 +90,16 @@ public class UsuarioController {
         usuario.setFotoUrl(dados.getFotoUrl());
         usuarioRepository.save(usuario);
         return ResponseEntity.ok(new UsuarioPerfilDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getRole(), usuario.getFotoUrl()));
+    }
+
+    @PostMapping("/me/foto")
+    public ResponseEntity<?> enviarFoto(Authentication authentication, @RequestParam("foto") MultipartFile foto) {
+        if (authentication == null || !(authentication.getPrincipal() instanceof UsuarioModel usuario)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário não autenticado.");
+        }
+        String fotoUrl = storageService.upload("profile-images", "profiles/" + usuario.getId(), foto);
+        usuario.setFotoUrl(fotoUrl);
+        usuarioRepository.save(usuario);
+        return ResponseEntity.ok(new UsuarioPerfilDTO(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getRole(), fotoUrl));
     }
 }

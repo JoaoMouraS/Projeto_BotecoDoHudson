@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
-import { uploadPublicImage } from '../../services/supabase';
 import './Perfil.css';
 
 const Perfil = () => {
@@ -26,8 +25,13 @@ const Perfil = () => {
     setErro('');
     setMensagem('');
     try {
-      const fotoUrl = foto ? await uploadPublicImage('profile-images', foto, `profiles/${usuario.id}`) : usuario.fotoUrl;
-      const { data } = await api.put('/api/usuarios/me', { nome: nome || usuario.nome, fotoUrl });
+      let data = usuario;
+      if (foto) {
+        const formData = new FormData();
+        formData.append('foto', foto);
+        ({ data } = await api.post('/api/usuarios/me/foto', formData));
+      }
+      ({ data } = await api.put('/api/usuarios/me', { nome: nome || usuario.nome, fotoUrl: data.fotoUrl }));
       atualizarUsuario(data);
       setNome(data.nome);
       setFoto(null);

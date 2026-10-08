@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Header from '../../components/Header/Header';
+import api from '../../services/api';
 import './Cadastro.css'; 
 
 const Cadastro = () => {
@@ -19,7 +18,7 @@ const Cadastro = () => {
 
     try {
       // Faz o POST para o backend
-      await axios.post('http://localhost:8080/api/usuarios/cadastrar', {
+      await api.post('/api/usuarios/cadastrar', {
         nome,
         email,
         senha,
@@ -39,29 +38,28 @@ const Cadastro = () => {
   };
 
   return (
-    <>
-      <Header />
+    <main className="auth-page">
       <div className="login-container">
         <div className="login-left">
           <div className="login-overlay">
             <div className="left-content">
-              <span className="subtitle">BEM-VINDO AO BOTECO</span>
+              <span className="subtitle">TRADIÇÃO, RESENHA E BOA COMPANHIA</span>
               <h1>FAÇA PARTE<br /><span className="text-orange">DA RODA.</span></h1>
-              <p>Cadastre-se para fazer suas reservas, garantir ingressos para os eventos e não ficar de fora do nosso samba.</p>
+              <p>Crie sua conta para reservar sua mesa e acompanhar as noites do Boteco.</p>
             </div>
           </div>
         </div>
 
         <div className="login-right">
           <div className="login-form-box">
-            <span className="subtitle">ÁREA DO CLIENTE</span>
-            <h2>NOVA<br /><span className="text-orange">CONTA.</span></h2>
+            <div className="auth-brand">🍺 <strong>Boteco <span>do Hudson</span></strong></div>
+            <h2>CRIE SUA<br /><span className="text-orange">CONTA.</span></h2>
 
             {/* Exibe mensagem de erro se houver */}
             {erro && <p style={{color: 'red', marginBottom: '15px'}}>{erro}</p>}
 
             <form onSubmit={handleCadastro}>
-              <div className="form-group">
+              <div className="form-group auth-field">
                 <label>NOME COMPLETO</label>
                 <input 
                   type="text" 
@@ -72,7 +70,7 @@ const Cadastro = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-group auth-field">
                 <label>EMAIL</label>
                 <input 
                   type="email" 
@@ -83,7 +81,7 @@ const Cadastro = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-group auth-field">
                 <label>SENHA</label>
                 <input 
                   type="password" 
@@ -94,16 +92,17 @@ const Cadastro = () => {
                 />
               </div>
 
-              <button type="submit" className="btn-login">CADASTRAR ➔</button>
+              <button type="submit" className="btn-login">CRIAR CONTA  →</button>
             </form>
 
             <div className="login-footer">
-              <Link to="/login">Já tem conta? Faça login</Link>
+              <Link className="auth-outline-button" to="/login">← &nbsp; Voltar para login</Link>
             </div>
+            <p className="auth-switch">Já tem uma conta? <Link to="/login">Entrar</Link></p>
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

@@ -2,23 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import api from "../../services/api";
-import { uploadPublicImages } from "../../services/supabase";
+import EventCalendar from "../../components/EventCalendar/EventCalendar";
 import "./AdminConteudo.css";
 
 const CONFIG = {
-  cardapio: {
-    title: "Gerenciar cardápio",
-    endpoint: "/api/cardapio",
-    fields: [
-      ["nome", "Nome", "text"],
-      ["categoria", "Categoria", "text"],
-      ["descricao", "Descrição", "text"],
-      ["preco", "Preço", "number"],
-      ["imagemUrl", "URL da imagem", "url"],
-    ],
-    initial: { nome: "", categoria: "Petiscos", descricao: "", preco: "", imagemUrl: "", disponivel: true },
-    name: (item) => item.nome,
-  },
   eventos: {
     title: "Gerenciar eventos",
     endpoint: "/api/eventos",
@@ -44,6 +31,7 @@ export default function AdminConteudo({ tipo }) {
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
   const [imagens, setImagens] = useState([]);
+  const [ingresso, setIngresso] = useState({ nome: "", publicoAlvo: "TODOS", preco: "", quantidadeTotal: "" });
 
   const carregar = async () => {
     try {
@@ -67,7 +55,6 @@ export default function AdminConteudo({ tipo }) {
     setSalvando(true);
     try {
       const payload = { ...formulario };
-      if (tipo === "cardapio") payload.preco = Number(payload.preco);
       if (tipo === "eventos") {
         payload.precoIngresso = Number(payload.precoIngresso);
         payload.dataEvento = `${payload.dataEventoDia}T${payload.horarioEvento}`;
@@ -79,17 +66,21 @@ export default function AdminConteudo({ tipo }) {
         : await api.post(config.endpoint, payload);
 
       if (tipo === "eventos" && imagens.length > 0) {
-        const urls = await uploadPublicImages("event-images", imagens, `events/${resposta.data.id}`);
-        const imagensAnteriores = resposta.data.imagensUrls || [];
-        await api.put(`${config.endpoint}/${resposta.data.id}`, {
-          ...resposta.data,
-          imagemUrl: resposta.data.imagemUrl || urls[0],
-          imagensUrls: [...imagensAnteriores, ...urls],
+        const formData = new FormData();
+        imagens.forEach((imagem) => formData.append("imagens", imagem));
+        await api.post(`/api/eventos/${resposta.data.id}/imagens`, formData);
+      }
+      if (tipo === "eventos" && ingresso.nome && ingresso.preco !== "" && ingresso.quantidadeTotal !== "") {
+        await api.post(`/api/eventos/${resposta.data.id}/ingressos`, {
+          ...ingresso,
+          preco: Number(ingresso.preco),
+          quantidadeTotal: Number(ingresso.quantidadeTotal),
         });
       }
       setFormulario(config.initial);
       setEditando(null);
       setImagens([]);
+      setIngresso({ nome: "", publicoAlvo: "TODOS", preco: "", quantidadeTotal: "" });
       await carregar();
     } catch (requestError) {
       setErro(requestError.response?.data?.message || "Não foi possível salvar o registro.");
@@ -135,13 +126,19 @@ export default function AdminConteudo({ tipo }) {
             {config.fields.map(([name, label, type]) => (
               <label key={name}>
                 {label}
-                <input name={name} type={type} value={formulario[name] ?? ""} onChange={atualizar} required={name !== "imagemUrl" && name !== "descricao"} step={type === "number" ? "0.01" : undefined} />
+                {name === "dataEventoDia" ? <EventCalendar value={formulario[name]} min={new Date().toISOString().slice(0, 10)} onChange={(value) => setFormulario((atual) => ({ ...atual, dataEventoDia: value }))} /> : <input name={name} type={type} value={formulario[name] ?? ""} onChange={atualizar} required={name !== "imagemUrl" && name !== "descricao"} step={type === "number" ? "0.01" : undefined} />}
               </label>
             ))}
+            {tipo === "eventos" && <>
+              <label>Nome do ingresso<input value={ingresso.nome} onChange={(event) => setIngresso((atual) => ({ ...atual, nome: event.target.value }))} placeholder="Ex.: Off feminino" /></label>
+              <label>Público do ingresso<select value={ingresso.publicoAlvo} onChange={(event) => setIngresso((atual) => ({ ...atual, publicoAlvo: event.target.value }))}><option value="TODOS">Todos</option><option value="MULHERES">Mulheres</option><option value="HOMENS">Homens</option><option value="RESERVA">Reserva de mesa</option></select></label>
+              <label>Preço do ingresso<input type="number" min="0" step="0.01" value={ingresso.preco} onChange={(event) => setIngresso((atual) => ({ ...atual, preco: event.target.value }))} placeholder="10.00" /></label>
+              <label>Quantidade disponível<input type="number" min="1" value={ingresso.quantidadeTotal} onChange={(event) => setIngresso((atual) => ({ ...atual, quantidadeTotal: event.target.value }))} placeholder="100" /></label>
+            </>}
             {tipo === "eventos" && <label>Imagens do evento<input type="file" accept="image/*" multiple onChange={(event) => setImagens(Array.from(event.target.files || []))} /><small>As imagens serão salvas em event-images/events/{editando || "novo-evento"}.</small></label>}
           </div>
           <label className="admin-form__check">
-            <input type="checkbox" name={tipo === "cardapio" ? "disponivel" : "publicado"} checked={Boolean(formulario[tipo === "cardapio" ? "disponivel" : "publicado"])} onChange={atualizar} />
+            <input type="checkbox" name="publicado" checked={Boolean(formulario.publicado)} onChange={atualizar} />
             Publicado para os clientes
           </label>
           {erro && <p className="admin-content__error" role="alert">{erro}</p>}

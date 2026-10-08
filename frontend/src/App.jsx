@@ -6,15 +6,11 @@ import Galeria from "./pages/Galeria/Galeria";
 import Cadastro from "./pages/Cadastro/Cadastro";
 import Reservas from "./pages/Reservas/Reservas";
 import Login from "./pages/Login/Login";
-import Cardapio from "./pages/Cardapio/Cardapio";
 import Eventos from "./pages/Eventos/Eventos";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Perfil from "./pages/Perfil/Perfil";
 import AdminConteudo from "./pages/AdminConteudo/AdminConteudo";
 import "./styles/global.css";
-
-// Conforme novas telas forem criadas (Cardápio, Eventos, Reservas, Login...),
-// adicione novas <Route> aqui.
 
 export default function App() {
   return (
@@ -47,7 +43,6 @@ export default function App() {
               </RotaAutenticada>
             }
           />
-          <Route path="/cardapio" element={<Cardapio />} />
           <Route path="/eventos" element={<Eventos />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route
@@ -55,14 +50,6 @@ export default function App() {
             element={
               <RotaAdmin>
                 <Dashboard />
-              </RotaAdmin>
-            }
-          />
-          <Route
-            path="/admin/cardapio"
-            element={
-              <RotaAdmin>
-                <AdminConteudo tipo="cardapio" />
               </RotaAdmin>
             }
           />

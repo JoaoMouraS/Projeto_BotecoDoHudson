@@ -59,6 +59,107 @@
   padding: 10px;
 }
 
+.event-calendar {
+  width: 360px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #fff;
+  color: #17233f;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.calendar-heading strong {
+  color: #555968;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+}
+
+.calendar-heading button,
+.calendar-footer button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #0795f5;
+  font-size: 32px;
+  line-height: 1;
+  padding: 0 8px;
+}
+
+.calendar-weekdays,
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.calendar-weekdays {
+  color: #555968;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.calendar-day {
+  position: relative;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: #17233f;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.calendar-day--past,
+.calendar-day:not(.calendar-day--event) {
+  color: #a9afbd;
+  cursor: default;
+}
+
+.calendar-day--selected {
+  width: 40px;
+  height: 40px;
+  justify-self: center;
+  border-radius: 50%;
+  background: #0795f5;
+  color: #fff;
+}
+
+.calendar-day i {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0795f5;
+  transform: translateX(-50%);
+}
+
+.calendar-day--selected i {
+  background: #fff;
+}
+
+.calendar-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  color: #777d8c;
+  font-size: 11px;
+}
+
+.calendar-footer button {
+  font-size: 12px;
+  padding: 4px;
+}
+
 .agenda-item {
   display: flex;
   border: 1px solid #FF6600;
@@ -109,6 +210,21 @@
   gap: 20px;
   color: #777;
   font-size: 0.9rem;
+}
+
+.ticket-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.ticket-chip {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 155, 33, 0.5);
+  border-radius: 999px;
+  color: #ffbf66;
+  font-size: 11px;
 }
 
 .agenda-actions {
@@ -207,6 +323,11 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 14px;
+  }
+
+  .event-calendar {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .agenda-info h3 {

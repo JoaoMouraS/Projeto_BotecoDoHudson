@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../services/api';
 import './Login.css';
@@ -53,34 +52,30 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Header />
+    <main className="auth-page">
       <div className="login-container">
         <div className="login-left">
           <div className="login-overlay">
-            <div className="brand-logo">BOTECO DO HUDSON</div>
+            <div className="brand-logo">🍺 <span>Boteco<br />do Hudson</span></div>
             <div className="left-content">
-              <span className="subtitle">BEM-VINDO AO BOTECO</span>
+              <span className="subtitle">TRADIÇÃO, RESENHA E BOA COMPANHIA</span>
               <h1>A CASA<br /><span className="text-orange">É SUA.</span></h1>
-              <p>Acompanhe suas reservas, garanta seus ingressos para os eventos e não fique de fora da nossa roda.</p>
-            </div>
-            <div className="left-footer">
-              BELO HORIZONTE • DESDE 1975
+              <p>Faça seu login ou cadastre-se para viver essa experiência com a gente.</p>
             </div>
           </div>
         </div>
 
         <div className="login-right">
           <div className="login-form-box">
-            <span className="subtitle">ÁREA DO CLIENTE</span>
-            <h2>ACESSE SUA<br /><span className="text-orange">CONTA.</span></h2>
+            <div className="auth-brand">🍺 <strong>Boteco <span>do Hudson</span></strong></div>
+            <h2>BEM-VINDO<span className="text-orange">!</span></h2>
             <p className="description">Entre para gerenciar suas reservas e acompanhar nossos eventos.</p>
 
             {erro && <p style={{color: 'red', marginBottom: '15px'}}>{erro}</p>}
 
             <form onSubmit={handleLogin}>
-              <div className="form-group">
-                <label>SEU EMAIL</label>
+              <div className="form-group auth-field">
+                <label>EMAIL</label>
                 <input 
                   type="email" 
                   placeholder="seuemail@exemplo.com" 
@@ -90,7 +85,7 @@ const Login = () => {
                 />
               </div>
 
-              <div className="form-group">
+              <div className="form-group auth-field">
                 <label>SENHA</label>
                 <input 
                   type="password" 
@@ -102,18 +97,19 @@ const Login = () => {
               </div>
 
               <button type="submit" className="btn-login" disabled={enviando}>
-                {enviando ? 'ENTRANDO...' : 'ENTRAR ➔'}
+                {enviando ? 'ENTRANDO...' : 'ENTRAR  →'}
               </button>
             </form>
 
             <div className="login-footer">
-              <Link to="/esqueci-senha">Esqueci a senha</Link>
-              <Link to="/cadastro">Não tem conta? Cadastre-se</Link>
+              <Link to="/esqueci-senha">Esqueceu sua senha?</Link>
+              <Link className="auth-outline-button" to="/cadastro">＋ &nbsp; Criar uma conta</Link>
             </div>
+            <p className="auth-switch">Já tem uma conta? <Link to="/cadastro">Cadastre-se</Link></p>
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 };
 

@@ -51,6 +51,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                     } else if (role.startsWith("ROLE_")) {
                         role = role.substring(5);
                     }
+                    role = role.toUpperCase(java.util.Locale.ROOT);
 
                     var authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
                     var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);

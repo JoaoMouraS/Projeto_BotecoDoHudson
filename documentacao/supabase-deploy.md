@@ -19,7 +19,7 @@ O backend atual usa Spring Security e armazena o usuario, email e hash da senha 
 - `DB_PASSWORD`: senha do banco do projeto.
 - `JWT_SECRET`: segredo longo e exclusivo da aplicacao.
 
-Se o backend precisar acessar a API administrativa do Supabase no futuro, configure a nova chave secreta apenas no ambiente do backend como `SUPABASE_SECRET_KEY`. Nunca use essa variável com prefixo `VITE_`.
+O backend recebe `SUPABASE_URL` e `SUPABASE_SECRET_KEY`. Ele valida o JWT Spring antes de aceitar upload de perfil/evento e usa a chave secreta apenas para chamar o Storage. Nunca use essa variável com prefixo `VITE_`.
 
 O Spring criara/atualizara as tabelas conforme `spring.jpa.hibernate.ddl-auto=update`. Para producao, prefira migracoes versionadas e um backup antes de alterar o schema.
 

@@ -29,8 +29,8 @@ export default function Home() {
               <a href="/reservar" className="btn btn--primary">
                 Reservar minha mesa
               </a>
-              <a href="/cardapio" className="btn btn--ghost">
-                Ver cardápio
+              <a href="/eventos" className="btn btn--ghost">
+                Ver eventos
               </a>
             </div>
           </div>
@@ -64,19 +64,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRATO DO DIA */}
+        {/* DESTAQUE DA CASA */}
         <section className="teaser container">
           <div className="teaser__card teaser__card--dish">
-            <span className="eyebrow">Prato do dia · Terça</span>
-            <h3 className="teaser__title">Feijoada do Hudson</h3>
+            <span className="eyebrow">A roda começa aqui</span>
+            <h3 className="teaser__title">Mesa, samba e resenha</h3>
             <p className="teaser__text">
-              Feijão preto, carnes defumadas, couve, laranja e farofa
-              crocante.
+              Consulte os próximos eventos e escolha a noite que combina com a sua turma.
             </p>
             <div className="teaser__footer">
-              <span className="teaser__price">R$ 49,00</span>
-              <a href="/cardapio" className="teaser__link">
-                Ver cardápio completo →
+              <a href="/eventos" className="teaser__link">
+                Ver agenda completa →
               </a>
             </div>
           </div>

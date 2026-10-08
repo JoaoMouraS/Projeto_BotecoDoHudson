@@ -33,15 +33,9 @@ on storage.objects
 for select
 using (bucket_id in ('gallery', 'event-images', 'profile-images'));
 
--- O frontend usa a publishable key para enviar imagens. Como o login atual
--- usa JWT proprio do Spring (e nao Supabase Auth), o Storage nao consegue
--- identificar o usuario. Restrinja tipos/tamanho no painel e migre depois
--- para URLs assinadas se o upload publico nao for aceitavel.
+-- Nao existe policy anonima de INSERT. Uploads passam pelo backend Spring,
+-- que valida o JWT/role e usa SUPABASE_SECRET_KEY somente no servidor.
 drop policy if exists "Uploads de imagens do site" on storage.objects;
-create policy "Uploads de imagens do site"
-on storage.objects
-for insert
-with check (bucket_id in ('event-images', 'profile-images'));
 
 -- O bucket deve ser criado pelo painel Storage como publico.
 -- Nao habilite insert/update/delete anon. Esses comandos devem passar

@@ -67,7 +67,6 @@ const Dashboard = () => {
           <a href="#" className="active">Dashboard</a>
           <a href="#">Reservas <span className="badge">12</span></a>
           <Link to="/admin/eventos">Eventos</Link>
-          <Link to="/admin/cardapio">Cardápio</Link>
           <a href="#">Galeria de Fotos</a>
           <a href="#">Configurações</a>
         </nav>
