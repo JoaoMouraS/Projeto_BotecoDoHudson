@@ -17,3 +17,6 @@ backend/api/.env
 # IDE
 .vscode/
 .idea/
+.env.*
+!.env.example
+*.env

@@ -1,5 +1,5 @@
 .eventos-container {
-  background-color: #1A1311;
+  background-color: var(--color-bg-elevated);
   color: #FFF;
   min-height: 100vh;
 }
@@ -16,7 +16,7 @@
 }
 
 .hero-content .subtitle {
-  color: #FF6600;
+  color: var(--color-accent);
   letter-spacing: 2px;
   font-size: 12px;
 }
@@ -26,7 +26,7 @@
   text-transform: uppercase;
   line-height: 1;
   margin: 10px 0 20px;
-  color: #FF6600; /* Destaque laranja nas letras */
+  color: var(--color-accent); /* Destaque laranja nas letras */
 }
 
 .hero-content p {
@@ -55,13 +55,13 @@
 .mes-select {
   background: transparent;
   color: #FFF;
-  border: 1px solid #332A25;
+  border: 1px solid var(--color-surface-line);
   padding: 10px;
 }
 
 .agenda-item {
   display: flex;
-  border: 1px solid #FF6600;
+  border: 1px solid var(--color-accent);
   padding: 30px;
   border-radius: 4px;
   align-items: center;
@@ -71,7 +71,7 @@
 .agenda-date .day {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #FF6600;
+  color: var(--color-accent);
   text-align: center;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .agenda-info p {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   margin: 0 0 15px 0;
 }
 
@@ -111,8 +111,8 @@
 }
 
 .btn-primary {
-  background-color: #FF6600;
-  color: #1A1311;
+  background-color: var(--color-accent);
+  color: var(--color-bg-elevated);
   border: none;
   padding: 15px 30px;
   font-weight: bold;
@@ -122,7 +122,7 @@
 .btn-secondary {
   background-color: transparent;
   color: #FFF;
-  border: 1px solid #332A25;
+  border: 1px solid var(--color-surface-line);
   padding: 15px 30px;
   font-weight: bold;
   cursor: pointer;
@@ -198,5 +198,86 @@
   .btn-secondary {
     width: 100%;
     padding: 12px 18px;
+  }
+}
+/* ===================== Eventos vindos da API ===================== */
+.eventos-hero {
+  position: relative;
+  background-color: var(--color-bg-elevated);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.eventos-hero--vazio {
+  background: radial-gradient(600px 300px at 80% 0%, rgba(255, 90, 31, 0.25), transparent 60%), var(--color-bg-elevated);
+  min-height: 300px;
+}
+
+.eventos-hero__sombra {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 12, 8, 0.15), rgba(18, 12, 8, 0.95));
+}
+
+.eventos-hero .hero-content {
+  position: relative;
+  padding: 40px;
+}
+
+.eventos-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 8vw, 4.6rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  margin: 10px 0 14px;
+}
+
+.eventos-hero p {
+  color: var(--color-text-muted);
+  max-width: 620px;
+}
+
+.eventos-hero p a {
+  color: var(--color-accent-2);
+}
+
+.eventos-hero__acoes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.eventos-hero__acoes .btn-primary {
+  padding: 14px 24px;
+  text-decoration: none;
+}
+
+.agenda-date .mes {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+.agenda-info p {
+  color: var(--color-text-muted);
+  margin: 6px 0 10px;
+}
+
+.agenda-actions a {
+  text-align: center;
+  text-decoration: none;
+}
+
+@media (max-width: 680px) {
+  .eventos-hero .hero-content {
+    padding: 24px;
   }
 }

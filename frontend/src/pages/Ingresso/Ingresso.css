@@ -1,0 +1,134 @@
+.ingresso-pagina {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3) var(--space-6);
+}
+
+.ingresso-pagina .aviso {
+  margin-bottom: 20px;
+}
+
+.ingresso {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-elevated-2);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+}
+
+.ingresso--invalido {
+  filter: grayscale(0.8);
+  opacity: 0.75;
+}
+
+.ingresso__topo {
+  position: relative;
+  padding: 32px 28px 36px;
+  background: var(--gradient-brasa);
+  background-size: cover;
+  background-position: center;
+  color: var(--color-on-accent);
+}
+
+.ingresso__topo[style]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(18, 12, 8, 0.25), rgba(18, 12, 8, 0.85));
+}
+
+.ingresso__topo[style] {
+  color: var(--color-text);
+}
+
+.ingresso__topo > * {
+  position: relative;
+}
+
+.ingresso__marca {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+
+.ingresso__topo h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 2.8rem);
+  line-height: 1;
+  margin: 12px 0 10px;
+  text-transform: uppercase;
+}
+
+.ingresso__topo p {
+  font-weight: 600;
+}
+
+.ingresso__corte {
+  height: 0;
+  border-top: 2px dashed rgba(251, 244, 234, 0.25);
+  margin: 0 18px;
+}
+
+.ingresso__corpo {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px;
+  flex-wrap: wrap;
+}
+
+.ingresso__corpo .subtitle {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ingresso__nome {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+}
+
+.ingresso__anfitriao {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+}
+
+.ingresso__anfitriao img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--color-accent-2);
+}
+
+.ingresso__qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  line-height: 0;
+}
+
+.ingresso__qr code {
+  color: #222;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+}
+
+.ingresso__dica {
+  margin-top: 20px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.ingresso__dica a {
+  color: var(--color-accent-2);
+}

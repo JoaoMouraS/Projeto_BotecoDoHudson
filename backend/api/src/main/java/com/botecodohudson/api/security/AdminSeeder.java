@@ -2,7 +2,8 @@ package com.botecodohudson.api.security;
 
 import com.botecodohudson.api.model.UsuarioModel;
 import com.botecodohudson.api.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,24 +12,32 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminSeeder implements CommandLineRunner {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private static final Logger log = LoggerFactory.getLogger(AdminSeeder.class);
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final String adminEmail;
+    private final String adminSenha;
 
-    // Puxa os valores do application.properties
-    @Value("${app.admin.email}")
-    private String adminEmail;
-
-    @Value("${app.admin.senha}")
-    private String adminSenha;
+    // Valores vêm SOMENTE de ADMIN_EMAIL / ADMIN_PASSWORD (sem padrão no código).
+    public AdminSeeder(UsuarioRepository usuarioRepository,
+                       PasswordEncoder passwordEncoder,
+                       @Value("${app.admin.email:}") String adminEmail,
+                       @Value("${app.admin.senha:}") String adminSenha) {
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.adminEmail = adminEmail == null ? "" : adminEmail.trim().toLowerCase();
+        this.adminSenha = adminSenha;
+    }
 
     @Override
-    public void run(String... args) throws Exception {
-        // Verifica se a senha foi injetada pelas variáveis de ambiente
-        if (adminSenha == null || adminSenha.isEmpty()) {
-            System.out.println("Atenção: Senha do admin não configurada nas variáveis de ambiente. Pulando criação.");
+    public void run(String... args) {
+        if (adminEmail.isEmpty() || adminSenha == null || adminSenha.isEmpty()) {
+            log.info("ADMIN_EMAIL/ADMIN_PASSWORD não definidos: nenhum admin inicial será criado.");
+            return;
+        }
+        if (adminSenha.length() < 12) {
+            log.warn("ADMIN_PASSWORD muito curta (mínimo 12 caracteres): admin inicial NÃO criado.");
             return;
         }
 
@@ -36,12 +45,11 @@ public class AdminSeeder implements CommandLineRunner {
             UsuarioModel admin = new UsuarioModel();
             admin.setNome("Administrador Hudson");
             admin.setEmail(adminEmail);
-            // Criptografa a senha que veio da variável de ambiente
-            admin.setSenha(passwordEncoder.encode(adminSenha)); 
+            admin.setSenha(passwordEncoder.encode(adminSenha));
             admin.setRole("ADMIN");
-
             usuarioRepository.save(admin);
-            System.out.println("Usuário Admin criado com sucesso!");
+            // Nunca loga e-mail nem senha.
+            log.info("Usuário admin inicial criado.");
         }
     }
 }

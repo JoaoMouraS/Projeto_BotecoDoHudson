@@ -1,0 +1,12 @@
+# Segredos NUNCA entram na imagem
+**/.env
+**/.env.*
+!**/.env.example
+
+**/node_modules
+**/dist
+**/target
+**/.git
+**/.idea
+**/.vscode
+documentacao

@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -22,11 +22,32 @@ export function RotaAdmin({ children }) {
  * pra não ficar "preso" na tela de login/cadastro.
  */
 export function RotaVisitante({ children }) {
-  const { isAutenticado, carregando } = useAuth();
+  const { isAutenticado, isAdmin, carregando } = useAuth();
+  const location = useLocation();
 
   if (carregando) return null;
 
-  if (isAutenticado) return <Navigate to="/" replace />;
+  if (isAutenticado) {
+    const destino = isAdmin ? "/dashboard" : location.state?.from || "/";
+    return <Navigate to={destino} replace />;
+  }
+
+  return children;
+}
+
+/**
+ * Só deixa passar usuário logado (qualquer perfil). Quem não está logado vai
+ * para /login e volta para cá depois de entrar.
+ */
+export function RotaLogado({ children }) {
+  const { isAutenticado, carregando } = useAuth();
+  const location = useLocation();
+
+  if (carregando) return null;
+
+  if (!isAutenticado) {
+    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  }
 
   return children;
 }

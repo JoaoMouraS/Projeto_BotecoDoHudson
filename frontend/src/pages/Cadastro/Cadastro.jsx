@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import api, { mensagemDeErro } from '../../services/api';
 import Header from '../../components/Header/Header';
 import './Cadastro.css'; 
 
 const Cadastro = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { entrar } = useAuth();
   
   // Estados para guardar os dados do formulário
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [erro, setErro] = useState('');
 
   const handleCadastro = async (e) => {
@@ -19,21 +23,29 @@ const Cadastro = () => {
 
     try {
       // Faz o POST para o backend
-      await axios.post('http://localhost:8080/api/usuarios/cadastrar', {
+      // Não enviamos "role": o backend sempre cadastra como USER.
+      // A conta já sai logada (cookie de sessão HttpOnly).
+      const { data: perfil } = await api.post('/api/usuarios/cadastrar', {
         nome,
         email,
         senha,
-        role: 'USER' // Passando a role padrão
+        telefone: telefone || null,
+      });
+      setSenha('');
+      entrar(perfil);
+      // Conta criada: mostra o aviso para confirmar o e-mail (link enviado).
+      navigate('/perfil', {
+        replace: true,
+        state: { aviso: `Conta criada! Enviamos um link de confirmação para ${perfil.email}. Confirme para poder reservar.` },
       });
 
-      alert('Cadastro realizado com sucesso! Faça seu login.');
-      navigate('/login'); // Redireciona para o login após sucesso
-
     } catch (error) {
-      if (error.response && error.response.status === 400) {
+      if (error.response?.status === 409) {
         setErro('Este e-mail já está em uso.');
+      } else if (error.response?.status === 400) {
+        setErro(mensagemDeErro(error, 'Verifique os dados: a senha precisa ter entre 8 e 72 caracteres.'));
       } else {
-        setErro('Erro ao cadastrar. Tente novamente mais tarde.');
+        setErro(mensagemDeErro(error, 'Erro ao cadastrar. Tente novamente mais tarde.'));
       }
     }
   };
@@ -84,10 +96,25 @@ const Cadastro = () => {
               </div>
 
               <div className="form-group">
+                <label>WHATSAPP (OPCIONAL)</label>
+                <input
+                  type="tel"
+                  placeholder="(31) 99999-0000"
+                  autoComplete="tel"
+                  maxLength={20}
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
                 <label>SENHA</label>
                 <input 
                   type="password" 
                   placeholder="Crie uma senha forte" 
+                  minLength={8}
+                  maxLength={72}
+                  autoComplete="new-password"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
                   required 
@@ -98,7 +125,7 @@ const Cadastro = () => {
             </form>
 
             <div className="login-footer">
-              <Link to="/login">Já tem conta? Faça login</Link>
+              <Link to="/login" state={location.state}>Já tem conta? Faça login</Link>
             </div>
           </div>
         </div>

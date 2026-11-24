@@ -51,6 +51,42 @@ A pasta de wireframes do projeto contém as telas iniciais da interface:
 
 ![Login Admin](documentação/Wireframes/Login.png)
 
+## Como rodar localmente
+
+Arquitetura: **React (frontend) → API Spring Boot (backend) → PostgreSQL no Supabase**.
+O frontend nunca acessa o banco direto; só a API conhece as credenciais.
+
+1. **Backend**: copie `backend/api/.env.example` para `backend/api/.env` e preencha.
+   Esse é o **único** `.env` do projeto.
+   ```bash
+   cd backend/api && ./mvnw spring-boot:run
+   ```
+   O Flyway cria/atualiza as tabelas no schema `boteco`. Sem SMTP configurado, os links
+   de e-mail (confirmação, senha, convite) aparecem no console.
+2. **Frontend** (não precisa de `.env`; o Vite repassa `/api` e `/c/` para a porta 8080):
+   ```bash
+   cd frontend && npm install && npm run dev
+   ```
+   Para testar no celular na mesma rede Wi-Fi: abra `http://IP-DO-COMPUTADOR:5173`
+   e use `APP_URL=http://IP-DO-COMPUTADOR:5173` no `.env`.
+3. **Testes** (PostgreSQL embutido, não tocam no Supabase):
+   ```bash
+   cd backend/api && ./mvnw test
+   ```
+
+Regras de reserva (mínimos de pessoas, horário limite de chegada, mesas por evento)
+ficam em `backend/api/src/main/resources/application.properties`, prefixo `app.reservas`.
+
+## Publicar (link de convite funcionando em qualquer celular)
+
+O `Dockerfile` na raiz gera **um único serviço**: o site React fica embutido no Spring,
+então site e API respondem no mesmo endereço (necessário para o login por cookie).
+
+1. Crie o serviço numa hospedagem que rode Docker (Render, Railway, Fly.io...) apontando para este repositório.
+2. Cadastre as variáveis do `.env.example` no painel do serviço, com `APP_URL=https://seu-dominio`.
+3. Configure um domínio com HTTPS. Os links de convite (`https://seu-dominio/c/...`)
+   passam a abrir em qualquer celular, com prévia (foto e título) no WhatsApp.
+
 ## Status do projeto
 
 Este README reúne as principais ideias e direções do projeto, servindo como base para o desenvolvimento do site.

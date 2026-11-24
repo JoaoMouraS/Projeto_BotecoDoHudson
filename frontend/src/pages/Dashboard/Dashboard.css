@@ -1,25 +1,25 @@
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background-color: #1A1311;
+  background-color: var(--color-bg-elevated);
   color: #FFF;
 }
 
 .sidebar {
   width: 250px;
-  border-right: 1px solid #332A25;
+  border-right: 1px solid var(--color-surface-line);
   padding: 30px 20px;
 }
 
 .sidebar-logo {
-  color: #FF6600;
+  color: var(--color-accent);
   font-weight: bold;
   font-size: 1.2rem;
   margin-bottom: 40px;
 }
 
 .sidebar-subtitle {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   font-size: 10px;
   letter-spacing: 1px;
   margin-bottom: 15px;
@@ -33,7 +33,7 @@
 }
 
 .sidebar-nav a {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   text-decoration: none;
   padding: 12px 15px;
   border-radius: 4px;
@@ -43,12 +43,12 @@
 
 .sidebar-nav a.active, .sidebar-nav a:hover {
   background-color: rgba(255, 102, 0, 0.1);
-  color: #FF6600;
+  color: var(--color-accent);
 }
 
 .badge {
-  background-color: #FF6600;
-  color: #1A1311;
+  background-color: var(--color-accent);
+  color: var(--color-bg-elevated);
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.8rem;
@@ -68,7 +68,7 @@
 }
 
 .dashboard-header .date {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -92,7 +92,7 @@
 }
 
 .user-info span {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   font-size: 12px;
 }
 
@@ -100,11 +100,11 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid #FF6600;
+  border: 1px solid var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #FF6600;
+  color: var(--color-accent);
   font-weight: bold;
 }
 
@@ -116,13 +116,13 @@
 }
 
 .stat-card {
-  border: 1px solid #332A25;
+  border: 1px solid var(--color-surface-line);
   padding: 25px;
   border-radius: 4px;
 }
 
 .stat-title {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -139,7 +139,7 @@
 
 .stat-trend {
   font-size: 0.9rem;
-  color: #A09E9C;
+  color: var(--color-text-muted);
 }
 
 .tables-grid {
@@ -149,7 +149,7 @@
 }
 
 .table-box {
-  border: 1px solid #332A25;
+  border: 1px solid var(--color-surface-line);
   padding: 25px;
   border-radius: 4px;
 }
@@ -167,14 +167,14 @@
 }
 
 .box-header a {
-  color: #FF6600;
+  color: var(--color-accent);
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: bold;
 }
 
 .placeholder-text {
-  color: #A09E9C;
+  color: var(--color-text-muted);
   font-style: italic;
 }
 
@@ -186,7 +186,7 @@
   .sidebar {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #332A25;
+    border-bottom: 1px solid var(--color-surface-line);
     padding: 20px;
   }
 
@@ -245,4 +245,117 @@
   .stat-card {
     padding: 18px;
   }
+}
+/* Tabela de reservas (dados reais da API) */
+.reservas-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.reservas-tabela th,
+.reservas-tabela td {
+  text-align: left;
+  padding: 0.6rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reservas-tabela th {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.table-box {
+  overflow-x: auto;
+}
+
+.reservas-tabela small {
+  opacity: 0.6;
+}
+
+.reservas-tabela .status-confirmada {
+  color: var(--color-success);
+}
+
+.reservas-tabela .status-aguardando_convidados {
+  color: var(--color-accent);
+}
+
+.dashboard-main > .table-box {
+  margin-bottom: 24px;
+}
+
+.reservas-tabela a {
+  color: var(--color-accent-2);
+}
+
+.status-expirada,
+.status-cancelada {
+  color: var(--color-text-muted);
+}
+
+.btn-checkin {
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-checkin:hover {
+  background: var(--color-accent-soft);
+}
+
+.checkin-ok {
+  color: var(--color-success);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.eventos-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eventos-admin li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.eventos-admin small {
+  display: block;
+  color: var(--color-text-muted);
+}
+
+.eventos-admin button {
+  background: none;
+  color: var(--color-text-muted);
+  font-size: 1.3rem;
+}
+
+.evento-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.evento-form input,
+.evento-form textarea {
+  padding: 10px 12px;
+}
+
+.evento-form .btn-submit {
+  padding: 12px;
 }

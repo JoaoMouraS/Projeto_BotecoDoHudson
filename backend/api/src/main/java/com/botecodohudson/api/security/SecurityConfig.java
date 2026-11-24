@@ -1,78 +1,78 @@
 package com.botecodohudson.api.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-// IMPORTS NOVOS PARA O CORS
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final SecurityFilter securityFilter;
 
-    @Autowired
-    private SecurityFilter securityFilter;
+    public SecurityConfig(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. AVISA O SPRING SECURITY PARA USAR A CONFIGURAÇÃO DE CORS ABAIXO
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
+            // Front e API no MESMO endereço (Vite proxy em dev / proxy reverso em produção),
+            // então não há CORS: nenhum outro site consegue chamar a API com o cookie do usuário.
+            // CSRF ligado no modo SPA: cookie XSRF-TOKEN + header X-XSRF-TOKEN (o axios faz sozinho).
+            .csrf(csrf -> csrf.spa())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
-                .requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll() 
-                .anyRequest().authenticated() 
+                .requestMatchers("/error").permitAll()
+                // Públicas: login/cadastro, links de e-mail, convite e ingresso (amigos sem conta).
+                .requestMatchers(HttpMethod.POST, "/api/login", "/api/logout", "/api/usuarios/cadastrar",
+                        "/api/auth/**", "/api/convites/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/usuarios/me", "/api/reservas/regras",
+                        "/api/reservas/disponibilidade", "/api/eventos", "/api/convites/*",
+                        "/api/ingressos/*", "/api/imagens/*").permitAll()
+                // Só admin: todas as reservas (nome/telefone dos clientes), check-in e eventos.
+                .requestMatchers(HttpMethod.GET, "/api/reservas").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/reservas/*/check-in").hasRole("ADMIN")
+                .requestMatchers("/api/eventos/**").hasRole("ADMIN")
+                .requestMatchers("/api/**").authenticated()
+                // Fora de /api: o site (React) e o link curto /c/{codigo}.
+                .anyRequest().permitAll()
             )
+            .headers(h -> h
+                .contentSecurityPolicy(csp -> csp.policyDirectives(
+                    "default-src 'self'; script-src 'self'; connect-src 'self'; "
+                    + "img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                    + "font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"))
+                .referrerPolicy(r -> r.policy(
+                    org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))
+            )
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
-    // 2. BEAN COM AS REGRAS GLOBAIS DE CORS
+    // O SecurityFilter é @Component; sem isso o Spring Boot o registraria também
+    // como filtro global, fora da cadeia de segurança.
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        
-        // Coloque a URL exata do seu front-end (sem barra no final)
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); 
-        
-        // Permite os métodos essenciais, PRINCIPALMENTE o OPTIONS que o navegador usa no preflight
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); 
-        
-        // Libera os cabeçalhos usados pelo Axios e pelo seu JWT
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); 
-        
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+    public FilterRegistrationBean<SecurityFilter> naoRegistrarSecurityFilterGlobal(SecurityFilter filter) {
+        FilterRegistrationBean<SecurityFilter> reg = new FilterRegistrationBean<>(filter);
+        reg.setEnabled(false);
+        return reg;
     }
 
-    @Bean 
+    @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return new BCryptPasswordEncoder(12);
     }
 }

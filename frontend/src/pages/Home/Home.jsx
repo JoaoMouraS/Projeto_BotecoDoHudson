@@ -1,7 +1,16 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
+import api from "../../services/api";
 import "./Home.css";
 
 export default function Home() {
+  const [proximo, setProximo] = useState(null);
+
+  useEffect(() => {
+    api.get("/api/eventos").then(({ data }) => setProximo(data[0] ?? null)).catch(() => {});
+  }, []);
+
   return (
     <>
       <Header />
@@ -26,12 +35,12 @@ export default function Home() {
             </p>
 
             <div className="hero__actions">
-              <a href="/reservar" className="btn btn--primary">
+              <Link to="/reservar" className="btn btn--primary">
                 Reservar minha mesa
-              </a>
-              <a href="/cardapio" className="btn btn--ghost">
-                Ver cardápio
-              </a>
+              </Link>
+              <Link to="/eventos" className="btn btn--ghost">
+                Ver agenda
+              </Link>
             </div>
           </div>
         </section>
@@ -64,33 +73,39 @@ export default function Home() {
           </div>
         </section>
 
-        {/* PRATO DO DIA */}
+        {/* RESERVA + PRÓXIMO EVENTO */}
         <section className="teaser container">
           <div className="teaser__card teaser__card--dish">
-            <span className="eyebrow">Prato do dia · Terça</span>
-            <h3 className="teaser__title">Feijoada do Hudson</h3>
+            <span className="eyebrow">Aniversário no boteco</span>
+            <h3 className="teaser__title">Chama a roda pelo link</h3>
             <p className="teaser__text">
-              Feijão preto, carnes defumadas, couve, laranja e farofa
-              crocante.
+              Reserve a mesa, ganhe um convite com a sua foto e mande no grupo.
+              Bateu a meta de confirmados, a mesa é sua.
             </p>
             <div className="teaser__footer">
-              <span className="teaser__price">R$ 49,00</span>
-              <a href="/cardapio" className="teaser__link">
-                Ver cardápio completo →
-              </a>
+              <Link to="/reservar" className="teaser__link">
+                Como funciona a reserva →
+              </Link>
             </div>
           </div>
 
-          <div className="teaser__card teaser__card--event">
-            <span className="eyebrow">Evento especial · 22 de junho</span>
-            <h3 className="teaser__title">Feijoada &amp; Batuque</h3>
+          <div
+            className="teaser__card teaser__card--event"
+            style={proximo?.imagemUrl ? { backgroundImage: `linear-gradient(180deg, rgba(18,12,8,.35), rgba(18,12,8,.95)), url(${proximo.imagemUrl})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+          >
+            <span className="eyebrow">
+              {proximo
+                ? `Próximo evento · ${new Date(proximo.dataInicio).toLocaleDateString("pt-BR", { day: "numeric", month: "long" })}`
+                : "Agenda"}
+            </span>
+            <h3 className="teaser__title">{proximo ? proximo.nome : "Agenda em breve"}</h3>
             <p className="teaser__text">
-              Uma tarde inteira para cantar, comer e esquecer da hora.
+              {proximo ? "Garanta sua mesa antes que esgote." : "Fique de olho: logo tem samba novo na casa."}
             </p>
             <div className="teaser__footer">
-              <a href="/eventos" className="btn btn--primary btn--small">
-                Comprar ingresso
-              </a>
+              <Link to={proximo ? `/reservar?evento=${proximo.id}` : "/eventos"} className="btn btn--primary btn--small">
+                {proximo ? "Reservar mesa" : "Ver eventos"}
+              </Link>
             </div>
           </div>
         </section>

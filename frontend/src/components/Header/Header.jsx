@@ -5,7 +5,6 @@ import "./Header.css";
 
 const NAV_LINKS = [
   { label: "Início", href: "/" },
-  { label: "Cardápio", href: "/cardapio" },
   { label: "Eventos", href: "/eventos" },
   { label: "Fotos", href: "/fotos" },
   { label: "Reservar Mesa", href: "/reservar" },
@@ -20,8 +19,8 @@ export default function Header() {
   // rotas protegidas etc. todos leem do mesmo lugar).
   const { isAutenticado, isAdmin, usuario, logout } = useAuth();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setMenuOpen(false);
     navigate("/");
   };
@@ -85,7 +84,11 @@ export default function Header() {
                   title={avatarTitulo}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {inicialAvatar}
+                  {usuario?.fotoUrl ? (
+                    <img src={usuario.fotoUrl} alt="" className="header__avatar-img" />
+                  ) : (
+                    inicialAvatar
+                  )}
                 </Link>
                 <button onClick={handleLogout} className="header__logout">
                   SAIR

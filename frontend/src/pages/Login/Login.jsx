@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import api, { mensagemDeErro } from '../../services/api';
 import Header from '../../components/Header/Header';
 import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const location = useLocation();
+  const { entrar } = useAuth();
+  // Para onde voltar depois do login (ex.: veio da tela de reservas)
+  const voltarPara = location.state?.from || '/';
 
   // Estados do formulário
   const [email, setEmail] = useState('');
@@ -19,31 +22,21 @@ const Login = () => {
     setErro('');
 
     try {
-      const response = await axios.post('http://localhost:8080/api/login', {
-        email,
-        senha
-      });
+      // A API grava a sessão num cookie HttpOnly e devolve só o perfil público.
+      const { data: perfil } = await api.post('/api/login', { email, senha });
+      setSenha('');
+      entrar(perfil);
 
-      // O backend devolve { token, role } — antes o código usava uma variável
-      // "role" que nunca tinha sido criada, o que estourava um erro no meio
-      // do processo e caía direto na mensagem "Erro no servidor".
-      const { token, role } = response.data;
-
-      // Salva o token/role e carrega os dados do usuário (usado no Header/Perfil)
-      await login(token, role);
-
-      // Regra de redirecionamento: só ADMIN vai pro dashboard
-      if (role === 'ADMIN') {
-        navigate('/dashboard');
-      } else {
-        navigate('/');
-      }
+      // Admin vai pro painel; cliente volta para onde estava (ex.: reservas, convite).
+      navigate(perfil.role === 'ADMIN' ? '/dashboard' : voltarPara, { replace: true });
 
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response?.status === 401) {
         setErro('Email ou senha incorretos.');
+      } else if (error.response?.status === 400) {
+        setErro('Preencha e-mail e senha.');
       } else {
-        setErro('Erro no servidor. Tente novamente mais tarde.');
+        setErro(mensagemDeErro(error));
       }
     }
   };
@@ -80,6 +73,7 @@ const Login = () => {
                 <input 
                   type="email" 
                   placeholder="seuemail@exemplo.com" 
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -91,6 +85,7 @@ const Login = () => {
                 <input 
                   type="password" 
                   placeholder="Digite sua senha" 
+                  autoComplete="current-password"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
                   required
@@ -102,7 +97,7 @@ const Login = () => {
 
             <div className="login-footer">
               <Link to="/esqueci-senha">Esqueci a senha</Link>
-              <Link to="/cadastro">Não tem conta? Cadastre-se</Link>
+              <Link to="/cadastro" state={location.state}>Não tem conta? Cadastre-se</Link>
             </div>
           </div>
         </div>

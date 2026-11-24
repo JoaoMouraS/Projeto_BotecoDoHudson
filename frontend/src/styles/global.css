@@ -12,7 +12,11 @@ html {
 }
 
 body {
-  background: var(--color-bg);
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(255, 90, 31, 0.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(255, 182, 39, 0.07), transparent 60%),
+    var(--color-bg);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-body);
   line-height: 1.5;
@@ -72,4 +76,201 @@ ul {
   :focus-visible {
     outline-offset: 2px;
   }
+}
+
+/* ------------------------------------------------------------------
+   Identidade visual compartilhada (vem por último, vale para todas as páginas)
+   ------------------------------------------------------------------ */
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.text-orange,
+.hero__title--accent {
+  background: var(--gradient-brasa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+}
+
+/* Botões principais: brasa acesa */
+.btn--primary,
+.btn-primary,
+.btn-submit,
+.btn-login,
+.header__cta {
+  background: var(--gradient-brasa) !important;
+  color: var(--color-on-accent) !important;
+  border: none !important;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.btn--primary:hover,
+.btn-primary:hover,
+.btn-submit:hover:not(:disabled),
+.btn-login:hover:not(:disabled),
+.header__cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 14px 34px -8px rgba(255, 90, 31, 0.7);
+}
+
+.btn-submit:disabled,
+.btn-login:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-secundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-secundario:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+/* Cartões com profundidade */
+.cartao,
+.reservas-form-box,
+.reservas-info-box,
+.convite-box,
+.stat-card,
+.table-box,
+.perfil-reserva {
+  background: linear-gradient(180deg, var(--color-bg-elevated-2) 0%, var(--color-bg-elevated) 100%) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card);
+}
+
+/* Campos de formulário */
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select,
+textarea {
+  background: rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid var(--color-border-strong) !important;
+  color: var(--color-text) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--color-accent);
+}
+
+/* Avisos */
+.aviso {
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-accent-2);
+  background: rgba(255, 182, 39, 0.08);
+  color: var(--color-text);
+}
+
+.aviso--erro {
+  border-left-color: var(--color-danger);
+  background: rgba(255, 107, 107, 0.08);
+}
+
+.aviso--ok {
+  border-left-color: var(--color-success);
+  background: rgba(61, 220, 132, 0.08);
+}
+
+.aviso button,
+.aviso a {
+  color: var(--color-accent-2);
+  background: none;
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* Páginas simples (verificar e-mail, ingresso, senha...) */
+.pagina-simples {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-3);
+  min-height: 70vh;
+}
+
+.pagina-simples h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 7vw, 3.4rem);
+  line-height: 1;
+  margin: 12px 0 20px;
+  text-transform: uppercase;
+}
+
+.pagina-simples p {
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.pagina-simples form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.pagina-simples label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.pagina-simples input {
+  width: 100%;
+  padding: 14px;
+}
+
+.pagina-simples .btn-submit,
+.pagina-simples .btn-login {
+  padding: 16px 24px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }

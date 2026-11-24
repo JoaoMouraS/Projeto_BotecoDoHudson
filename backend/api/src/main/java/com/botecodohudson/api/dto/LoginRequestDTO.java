@@ -1,9 +1,10 @@
 package com.botecodohudson.api.dto;
 
-import lombok.Data;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Data
-public class LoginRequestDTO {
-    private String email;
-    private String senha;
+public record LoginRequestDTO(
+        @NotBlank @Size(max = 255) String email,
+        @NotBlank @Size(max = 72) String senha
+) {
 }

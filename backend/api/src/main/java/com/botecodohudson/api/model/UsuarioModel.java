@@ -1,15 +1,22 @@
 package com.botecodohudson.api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
-@Data
+// Sem @Data: o toString() gerado incluiria o hash da senha em logs.
+@Getter
+@Setter
+@ToString(exclude = "senha")
 @Entity
 @Table(name = "usuarios")
 public class UsuarioModel implements UserDetails {
@@ -18,23 +25,40 @@ public class UsuarioModel implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 120)
     private String nome;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String senha;
 
-    @Column(nullable = false)
+    @Column(length = 20)
+    private String telefone;
+
+    private LocalDate dataNascimento;
+
+    @Column(nullable = false, length = 20)
     private String role = "USER";
 
-    // MÉTODOS OBRIGATÓRIOS DO SPRING SECURITY:
+    /** Só vira true quando o usuário clica no link enviado ao e-mail. */
+    @Column(nullable = false)
+    private Boolean emailVerificado = false;
+
+    /** Foto de perfil (tabela imagens). Aparece no link de convite das reservas. */
+    private UUID fotoId;
+
+    /** Muda quando a senha é trocada: tokens com versão antiga deixam de valer. */
+    @Column(nullable = false)
+    private Integer tokenVersao = 0;
+
+    public boolean isAdmin() {
+        return "ADMIN".equals(role);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Converte a string "USER" ou "ADMIN" para o formato que o Spring entende
         return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.toUpperCase()));
     }
 
@@ -45,26 +69,6 @@ public class UsuarioModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email; // O Spring usa o termo "Username", mas no seu sistema é o email
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        return this.email;
     }
 }

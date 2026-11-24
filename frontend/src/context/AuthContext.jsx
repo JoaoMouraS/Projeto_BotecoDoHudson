@@ -3,33 +3,21 @@ import api from "../services/api";
 
 const AuthContext = createContext(null);
 
+/**
+ * Estado de login do app. O token NÃO fica no navegador ao alcance do JS:
+ * ele mora num cookie HttpOnly. Aqui guardamos só os dados públicos do perfil.
+ */
 export function AuthProvider({ children }) {
-  const [role, setRole] = useState(() => localStorage.getItem("role"));
-  const [usuario, setUsuario] = useState(null); // { id, nome, email, role } — nunca tem senha
+  const [usuario, setUsuario] = useState(null); // { id, nome, email, telefone, dataNascimento, role }
   const [carregando, setCarregando] = useState(true);
 
-  // Busca o perfil do usuário logado no backend (rota /api/usuarios/me).
-  // Se o token estiver ausente/expirado/inválido, limpa tudo e desloga.
+  // Pergunta à API quem está logado (204 = ninguém). Também recebe o cookie CSRF.
   const carregarPerfil = useCallback(async () => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setUsuario(null);
-      setRole(null);
-      setCarregando(false);
-      return;
-    }
-
     try {
-      const { data } = await api.get("/api/usuarios/me");
-      setUsuario(data);
-      setRole(data.role);
-      localStorage.setItem("role", data.role);
-    } catch (err) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
+      const { data, status } = await api.get("/api/usuarios/me");
+      setUsuario(status === 200 ? data : null);
+    } catch {
       setUsuario(null);
-      setRole(null);
     } finally {
       setCarregando(false);
     }
@@ -39,31 +27,32 @@ export function AuthProvider({ children }) {
     carregarPerfil();
   }, [carregarPerfil]);
 
-  // Chame isso logo depois do POST /api/login der certo
-  const login = useCallback(
-    async (token, roleRecebida) => {
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", roleRecebida);
-      setRole(roleRecebida);
-      await carregarPerfil();
-    },
-    [carregarPerfil]
-  );
+  // Login/cadastro já devolvem o perfil: só guardamos no estado.
+  const entrar = useCallback((perfil) => setUsuario(perfil), []);
 
-  const logout = useCallback(() => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+  const logout = useCallback(async () => {
+    try {
+      await api.post("/api/logout");
+    } catch {
+      // mesmo se falhar, limpa o estado local
+    }
     setUsuario(null);
-    setRole(null);
+  }, []);
+
+  // Disparado pelo services/api.js quando a API responde 401 (sessão expirada).
+  useEffect(() => {
+    const limpar = () => setUsuario(null);
+    window.addEventListener("auth:expirada", limpar);
+    return () => window.removeEventListener("auth:expirada", limpar);
   }, []);
 
   const value = {
-    usuario, // dados públicos do usuário (id, nome, email, role)
-    role,
+    usuario,
     carregando, // true enquanto ainda não sabemos se há sessão válida
     isAutenticado: !!usuario,
-    isAdmin: role === "ADMIN",
-    login,
+    isAdmin: usuario?.role === "ADMIN",
+    entrar,
+    atualizarUsuario: setUsuario,
     logout,
   };
 
