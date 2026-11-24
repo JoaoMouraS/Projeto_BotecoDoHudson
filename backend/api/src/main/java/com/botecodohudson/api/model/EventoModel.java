@@ -35,6 +35,18 @@ public class EventoModel {
     @Column(nullable = false)
     private LocalDateTime dataEvento;
 
+    private LocalDateTime dataFim;
+    private String assunto;
+    private String categoria;
+    @Column(columnDefinition = "text")
+    private String descricaoHtml;
+    private String status = "RASCUNHO";
+    private boolean mostrarMapa = true;
+    private boolean eventoOnline = false;
+    private String linkTransmissao;
+    private boolean absorverTaxa = false;
+    private String nomenclatura = "Ingresso";
+
     @NotBlank
     @Column(nullable = false)
     private String local;
@@ -58,6 +70,26 @@ public class EventoModel {
     public void setDescricao(String descricao) { this.descricao = descricao; }
     public LocalDateTime getDataEvento() { return dataEvento; }
     public void setDataEvento(LocalDateTime dataEvento) { this.dataEvento = dataEvento; }
+    public LocalDateTime getDataFim() { return dataFim; }
+    public void setDataFim(LocalDateTime dataFim) { this.dataFim = dataFim; }
+    public String getAssunto() { return assunto; }
+    public void setAssunto(String assunto) { this.assunto = assunto; }
+    public String getCategoria() { return categoria; }
+    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public String getDescricaoHtml() { return descricaoHtml; }
+    public void setDescricaoHtml(String descricaoHtml) { this.descricaoHtml = descricaoHtml; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public boolean isMostrarMapa() { return mostrarMapa; }
+    public void setMostrarMapa(boolean mostrarMapa) { this.mostrarMapa = mostrarMapa; }
+    public boolean isEventoOnline() { return eventoOnline; }
+    public void setEventoOnline(boolean eventoOnline) { this.eventoOnline = eventoOnline; }
+    public String getLinkTransmissao() { return linkTransmissao; }
+    public void setLinkTransmissao(String linkTransmissao) { this.linkTransmissao = linkTransmissao; }
+    public boolean isAbsorverTaxa() { return absorverTaxa; }
+    public void setAbsorverTaxa(boolean absorverTaxa) { this.absorverTaxa = absorverTaxa; }
+    public String getNomenclatura() { return nomenclatura; }
+    public void setNomenclatura(String nomenclatura) { this.nomenclatura = nomenclatura; }
     public String getLocal() { return local; }
     public void setLocal(String local) { this.local = local; }
     public BigDecimal getPrecoIngresso() { return precoIngresso; }

@@ -49,11 +49,20 @@ public class IngressoModel {
     @Column(nullable = false)
     private Integer quantidadeVendida = 0;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime validoAte;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime encerraVendasEm;
+
+    private boolean meiaEntrada = false;
+    private String modoVenda = "DATA";
+    private String publico = "TODOS";
+    private Integer minimoCompra = 1;
+    private Integer maximoCompra = 5;
+    @Column(length = 100)
+    private String descricao;
+    private boolean visivel = true;
 
     public Long getId() { return id; }
     public EventoModel getEvento() { return evento; }
@@ -72,4 +81,18 @@ public class IngressoModel {
     public void setValidoAte(LocalDateTime validoAte) { this.validoAte = validoAte; }
     public LocalDateTime getEncerraVendasEm() { return encerraVendasEm; }
     public void setEncerraVendasEm(LocalDateTime encerraVendasEm) { this.encerraVendasEm = encerraVendasEm; }
+    public boolean isMeiaEntrada() { return meiaEntrada; }
+    public void setMeiaEntrada(boolean meiaEntrada) { this.meiaEntrada = meiaEntrada; }
+    public String getModoVenda() { return modoVenda; }
+    public void setModoVenda(String modoVenda) { this.modoVenda = modoVenda; }
+    public String getPublico() { return publico; }
+    public void setPublico(String publico) { this.publico = publico; }
+    public Integer getMinimoCompra() { return minimoCompra; }
+    public void setMinimoCompra(Integer minimoCompra) { this.minimoCompra = minimoCompra; }
+    public Integer getMaximoCompra() { return maximoCompra; }
+    public void setMaximoCompra(Integer maximoCompra) { this.maximoCompra = maximoCompra; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public boolean isVisivel() { return visivel; }
+    public void setVisivel(boolean visivel) { this.visivel = visivel; }
 }

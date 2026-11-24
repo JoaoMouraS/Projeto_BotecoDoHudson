@@ -73,6 +73,57 @@
   padding: 11px;
 }
 
+.admin-form select,
+.admin-form textarea {
+  width: 100%;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-elevated-2);
+  color: var(--color-text);
+  padding: 11px;
+}
+
+.event-form { display: grid; gap: 24px; }
+.event-section { padding: 24px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-bg-elevated); }
+.event-section__heading { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 22px; }
+.event-section__heading > span { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--color-accent); color: var(--color-bg); font-weight: 700; }
+.event-section__heading h2 { margin: 0; text-transform: uppercase; font-size: 20px; }
+.event-section__heading p { margin-top: 3px; color: var(--color-text-muted); font-size: 13px; }
+.event-form__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.event-field { margin-bottom: 16px; }
+.event-field > span { display: block; margin-bottom: 7px; }
+.event-field b { color: var(--color-accent); }
+.event-field small { display: block; margin-top: 5px; color: var(--color-text-muted); }
+.event-field--error input, .event-field--error select { border-color: #ff8f7a; }
+.event-field--error small { color: #ff8f7a; }
+.event-counter { text-align: right; }
+.event-check { display: flex !important; flex-direction: row !important; align-items: center; gap: 8px; margin: 12px 0; }
+.event-check input { width: auto; }
+.rich-editor__toolbar { display: flex; gap: 6px; padding: 8px; border: 1px solid var(--color-border); border-bottom: 0; background: var(--color-bg-elevated-2); }
+.rich-editor__toolbar button { padding: 5px 9px; border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text); }
+.rich-editor { min-height: 150px; padding: 14px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated-2); color: var(--color-text); outline: none; }
+.rich-editor:empty::before { content: "Adicione aqui a descrição do seu evento…"; color: var(--color-text-muted); }
+.ticket-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.ticket-actions button, .event-modal__footer button, .event-form__footer button { padding: 11px 15px; border: 1px solid var(--color-accent); border-radius: var(--radius-sm); background: var(--color-accent); color: var(--color-bg); font-weight: 700; }
+.ticket-search { max-width: 280px; padding: 10px; border: 1px solid var(--color-border-strong); background: var(--color-bg-elevated-2); color: var(--color-text); }
+.ticket-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 14px 0; border-top: 1px solid var(--color-border); }
+.ticket-row strong, .ticket-row span { display: block; }
+.ticket-row span { color: var(--color-text-muted); font-size: 13px; margin-top: 4px; }
+.ticket-row button { border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text); padding: 8px 11px; }
+.event-form__footer { display: flex; justify-content: flex-end; gap: 10px; }
+.event-form__footer .admin-form__cancel { background: transparent; color: var(--color-text); }
+.event-modal__backdrop { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgba(0, 0, 0, .72); }
+.event-modal { width: min(760px, 100%); max-height: 90vh; overflow: auto; padding: 24px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-bg-elevated); color: var(--color-text); }
+.event-modal__header, .event-modal__footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.event-modal__header { margin-bottom: 18px; }
+.event-modal__header h2 { margin: 4px 0 0; text-transform: uppercase; }
+.event-modal__header > button { background: transparent; color: var(--color-text); font-size: 28px; }
+.event-modal__notice { padding: 10px; border-left: 2px solid var(--color-accent); color: var(--color-text-muted); }
+.event-modal__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.event-modal__footer { border-top: 1px solid var(--color-border); margin-top: 20px; padding-top: 18px; }
+.event-modal__footer > div { display: flex; gap: 8px; }
+.event-toast { position: fixed; right: 24px; bottom: 24px; z-index: 30; padding: 14px 18px; border: 1px solid var(--color-accent); background: var(--color-bg-elevated); color: var(--color-text); }
+
 .admin-form__check {
   flex-direction: row !important;
   align-items: center;
@@ -203,4 +254,8 @@
   .admin-list__actions { width: 100%; }
   .admin-list__actions button { flex: 1; }
   .ticket-builder__row { grid-template-columns: 1fr; }
+  .event-form__grid, .event-modal__grid { grid-template-columns: 1fr; }
+  .event-section { padding: 16px; }
+  .event-form__footer { flex-direction: column; }
+  .event-form__footer button { width: 100%; }
 }

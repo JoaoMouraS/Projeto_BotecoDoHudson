@@ -58,6 +58,13 @@ public class IngressoController {
         ingresso.setPublicoAlvo(dados.getPublicoAlvo());
         ingresso.setPreco(dados.getPreco());
         ingresso.setQuantidadeTotal(dados.getQuantidadeTotal());
+        ingresso.setMeiaEntrada(dados.isMeiaEntrada());
+        ingresso.setModoVenda(dados.getModoVenda());
+        ingresso.setPublico(dados.getPublico());
+        ingresso.setMinimoCompra(dados.getMinimoCompra());
+        ingresso.setMaximoCompra(dados.getMaximoCompra());
+        ingresso.setDescricao(dados.getDescricao());
+        ingresso.setVisivel(dados.isVisivel());
         if (dados.getValidoAte() == null || dados.getEncerraVendasEm() == null) {
             throw new IllegalArgumentException("Informe a validade e o encerramento das vendas.");
         }
